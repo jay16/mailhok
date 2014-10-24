@@ -2,108 +2,30 @@
 = javascript_include_tag "/javascripts/bootstrapValidator.js"
 
 %h2 注册
-%form#defaultForm.form-horizontal{:action => "/user/register", :method => "post"}
+%form#registerForm.form-horizontal{action: "/user/register", method: "post"}
   .form-group
     %label.col-lg-3.control-label 用户名称&nbsp;&nbsp;&nbsp;
     .col-lg-5
-      %input.form-control{:name => "user[name]", :type => "text"}/
+      %input.form-control{name: "user[name]", type: "text"}/
   .form-group
     %label.col-lg-3.control-label 邮箱地址*
     .col-lg-5
-      %input.form-control{:name => "user[email]", :type => "text"}/
+      %input.form-control{name: "user[email]", type: "text"}/
   .form-group
     %label.col-lg-3.control-label 登陆密码*
     .col-lg-5
-      %input.form-control{:name => "user[password]", :type => "password"}/
+      %input.form-control{name: "user[password]", type: "password"}/
   .form-group
     %label.col-lg-3.control-label 确认密码*
     .col-lg-5
-      %input.form-control{:name => "user[confirm_password]", :type => "password"}/
+      %input.form-control{name: "user[confirm_password]", type: "password"}/
   .form-group
     %label#captchaOperation.col-lg-3.control-label
     .col-lg-2
-      %input.form-control{:name => "captcha", :type => "text"}/
+      %input.form-control{name: "captcha", type: "text"}/
   .form-group
     .col-lg-9.col-lg-offset-3
-      %button.btn.btn-primary{:name => "submit", :type => "submit", :value => "Submit"} 提交
-      %button#resetBtn.btn.btn-info{:type => "button"} 重置 
-/ :form
-:javascript
-  $(document).ready(function() {
-      // Generate a simple captcha
-      function randomNumber(min, max) {
-          return Math.floor(Math.random() * (max - min + 1) + min);
-      };
-      $("#captchaOperation").html([randomNumber(1, 100), "+", randomNumber(1, 200), "="].join(" "));
-  
-      $("#defaultForm").bootstrapValidator({
-          message: "填写项不符全要求",
-          feedbackIcons: {
-              valid: "glyphicon glyphicon-ok",
-              invalid: "glyphicon glyphicon-remove",
-              validating: "glyphicon glyphicon-refresh"
-          },
-          fields: {
-              "user[email]": {
-                  validators: {
-                      notEmpty: {
-                          message: "登陆邮箱为必填项!"
-                      },
-                      emailAddress: {
-                          message: "邮箱地址无效"
-                      }
-                  }
-              },
-              "user[password]": {
-                  validators: {
-                      notEmpty: {
-                          message: "登陆密码为必填项"
-                      },
-                      identical: {
-                          field: "user[confirm_password]",
-                          message: "登陆密码与确认密码不一致"
-                      },
-                      different: {
-                          field: "user[name]",
-                          message: "登陆密码不可以与用户名称相同"
-                      }
-                  }
-              },
-              "user[confirm_password]": {
-                  validators: {
-                      notEmpty: {
-                          message: "确认密码为必填项"
-                      },
-                      identical: {
-                          field: "user[password]",
-                          message: "确认密码与登陆密码不致"
-                      },
-                      different: {
-                          field: "user[name]",
-                          message: "确认密码不可以与用户名称相同"
-                      }
-                  }
-              },
-              captcha: {
-                  validators: {
-                      callback: {
-                          message: "计算错误",
-                          callback: function(value, validator) {
-                              var items = $("#captchaOperation").html().split(" "), sum = parseInt(items[0]) + parseInt(items[2]);
-                              return value == sum;
-                          }
-                      }
-                  }
-              }
-          }
-      });
-  
-      // Validate the form manually
-      $("#validateBtn").click(function() {
-          $("#defaultForm").bootstrapValidator("validate");
-      });
-  
-      $("#resetBtn").click(function() {
-          $("#defaultForm").data("bootstrapValidator").resetForm(true);
-      });
-  });
+      %button.btn.btn-primary{type: "submit"} 提交
+      %button#resetBtn.btn.btn-default{type: "button"} 重置 
+
+= javascript_include_tag "/javascripts/user_register.js"

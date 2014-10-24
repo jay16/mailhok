@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    return $("#package_form").bootstrapValidator({
+    $("#packageForm").bootstrapValidator({
       message: "填写内容不符合要求.",
       feedbackIcons: {
         valid: "glyphicon glyphicon-ok",
@@ -61,6 +61,9 @@
           }
         }
       }
+    });
+    return $("#resetBtn").click(function() {
+      return $("#packageForm").data("bootstrapValidator").resetForm(true);
     });
   });
 

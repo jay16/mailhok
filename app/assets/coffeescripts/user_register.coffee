@@ -1,5 +1,4 @@
 $(document).ready ->
-  # Generate a simple captcha
   randomNumber = (min, max) ->
     Math.floor Math.random() * (max - min + 1) + min
   $("#captchaOperation").html [
@@ -8,8 +7,8 @@ $(document).ready ->
     randomNumber(1, 200)
     "="
   ].join(" ")
-  $("#defaultForm").bootstrapValidator
-    message: "填写项不符全要求"
+  $("#registerForm").bootstrapValidator
+    message: "填写项不符全要求."
     feedbackIcons:
       valid: "glyphicon glyphicon-ok"
       invalid: "glyphicon glyphicon-remove"
@@ -19,40 +18,40 @@ $(document).ready ->
       "user[email]":
         validators:
           notEmpty:
-            message: "登陆邮箱为必填项!"
+            message: "登陆邮箱为必填项."
           emailAddress:
-            message: "邮箱地址无效"
+            message: "邮箱地址无效."
       "user[password]":
         validators:
           notEmpty:
-            message: "登陆密码为必填项"
+            message: "登陆密码为必填项."
           identical:
             field: "confirm_password"
-            message: "登陆密码与确认密码不一致"
+            message: "登陆密码与确认密码不一致."
           different:
             field: "user[name]"
-            message: "登陆密码不可以与用户名称相同"
+            message: "登陆密码不可以与用户名称相同."
       confirm_password:
         validators:
           notEmpty:
-            message: "确认密码为必填项"
+            message: "确认密码为必填项."
           identical:
             field: "user[password]"
-            message: "确认密码与登陆密码不致"
+            message: "确认密码与登陆密码不一致."
           different:
             field: "user[name]"
-            message: "确认密码不可以与用户名称相同"
+            message: "确认密码不可以包含用户名称."
       captcha:
         validators:
           callback:
-            message: "计算错误"
+            message: "计算错误."
             callback: (value, validator) ->
               items = $("#captchaOperation").html().split(" ")
-              sum = parseInt(items[0]) + parseInt(items[2])
+              sum   = parseInt(items[0]) + parseInt(items[2])
+              value = parseInt(value)
               value is sum
-  # Validate the form manually
-  $("#validateBtn").click ->
-    $("#defaultForm").bootstrapValidator "validate"
 
+  $("#validateBtn").click ->
+    $("#registerForm").bootstrapValidator "validate"
   $("#resetBtn").click ->
-    $("#defaultForm").data("bootstrapValidator").resetForm true
+    $("#registerForm").data("bootstrapValidator").resetForm true

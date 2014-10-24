@@ -1,5 +1,5 @@
 $ ->
-  $("#package_form").bootstrapValidator
+  $("#packageForm").bootstrapValidator
     message: "填写内容不符合要求."
     feedbackIcons:
       valid: "glyphicon glyphicon-ok"
@@ -42,3 +42,6 @@ $ ->
           regexp:
             regexp: /天|月|年/
             message: "单位必须在[天/月/年]范围内."
+
+  $("#resetBtn").click ->
+    $("#packageForm").data("bootstrapValidator").resetForm true
