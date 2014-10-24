@@ -1,0 +1,32 @@
+-#encoding: utf-8
+
+.row
+  %h1
+    = current_user.name
+    - if current_user.admin?
+      %small
+        %a{href: "/cpanel"} 控制台
+
+.row
+  使用PrePaidCode
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 名称
+        %th 数量
+        %th 备注
+    %tbody
+      %tr
+        %td 追踪记录
+        %td= @tracks.count
+        %td
+      %tr
+        %td 开信记录
+        %td= @records.count
+        %td
+      %tr
+        %td 订单
+        %td= @orders.count
+        %td

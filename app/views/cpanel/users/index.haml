@@ -1,0 +1,22 @@
+-#encoding: utf-8
+.row
+  .col-lg-6
+    %h1 用户管理
+  .col-lg-6{style: "margin-top:25px;"}
+    %a.btn.btn-default.right{href: "/cpanel/users/new"} 新建
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 序号
+        %th 名称
+        %th 邮箱
+        %th 注册时间
+    %tbody
+      - @users.each_with_index do |user, index|
+        %tr
+          %td= index + 1
+          %td= user.name
+          %td= user.email
+          %td= user.created_at.strftime("%Y-%m-%d %H:%M")

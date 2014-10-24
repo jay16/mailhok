@@ -1,0 +1,27 @@
+-#encoding: utf-8
+.row
+  .col-lg-6
+    %h1 套餐管理
+  .col-lg-6{style: "margin-top:25px;"}
+    %a.btn.btn-default.right{href: "/cpanel/packages/new"} 新建
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 序号
+        %th 名称
+        %th 价格
+        %th 使用期限
+        %th 状态
+    %tbody
+      - @packages.each_with_index do |package, index|
+        %tr
+          %td= index + 1
+          %td= package.name
+          %td= "￥%d" % package.price
+          %td
+            = package.num
+            x
+            .label.label-primary= package.unit
+          %td= package.onsale ? "在售" : "未售"

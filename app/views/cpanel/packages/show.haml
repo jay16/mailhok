@@ -1,0 +1,5 @@
+%h1= @package.name
+.row
+  = "￥%d" % [@package.price]
+.row
+  = "%d x %s" % [@package.num, @package.unit]
