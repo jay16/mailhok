@@ -1,6 +1,6 @@
 $ ->
   $("#package_form").bootstrapValidator
-    message: "填写内容不符合要求"
+    message: "填写内容不符合要求."
     feedbackIcons:
       valid: "glyphicon glyphicon-ok"
       invalid: "glyphicon glyphicon-remove"
@@ -10,24 +10,35 @@ $ ->
       "package[name]":
         validators:
           notEmpty:
-            message: "套餐名称是必填项"
+            message: "套餐名称是必填项."
       "package[price]":
         validators:
           notEmpty:
-            message: "价格是必填项"
+            message: "价格是必填项."
+          lessThan:
+            value: 10000
+            inclusive: true
+            message: "价格应该小于等于10,000"
+          greaterThan:
+            value: 1
+            inclusive: true
+            message: "价格应该大于等于1.0"
       "package[num]":
         validators:
           notEmpty:
-            message: "数量是必填项"
+            message: "数量是必填项."
+          lessThan:
+            value: 100
+            inclusive: true
+            message: "数量应该小于100[天/月/年]."
+          greaterThan:
+            value: 1
+            inclusive: true
+            message: "数量应该大于等于1."
       "package[unit]":
         validators:
           notEmpty:
-            message: "单位是必填项"
-
-  
-  # Validate the form manually
-  #$("#submit").click ->
-  #  $("#package_form").bootstrapValidator "validate"
-
-  #$("#reset").click ->
-  #  $("#package_form").data("bootstrapValidator").resetForm true
+            message: "单位是必填项."
+          regexp:
+            regexp: /天|月|年/
+            message: "单位必须在[天/月/年]范围内."

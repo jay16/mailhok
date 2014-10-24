@@ -2,25 +2,25 @@
 
 %form#package_form.form-horizontal{role: "form", "accept-charset" => "UTF-8", action: "/cpanel/packages", method: "post", novalidate: "novalidate"}
   .form-group
-    %label.col-lg-2.control-label{for: "_package_name"} 名称*
+    %label.col-lg-2.control-label 名称*
     .col-lg-10
       %input.form-control{name: "package[name]", placeholder: "套餐名称", type: "text"}
   .form-group
-    %label.col-lg-2.control-label{for: "_package_price"} 价格*
+    %label.col-lg-2.control-label 价格*
     .col-lg-10
-      %input.form-control{name: "package[price]", placeholder: "价格", type: "number"}
+      %input.form-control{name: "package[price]", placeholder: "价格", type: "text"}
   .form-group
-    %label.col-lg-2.control-label{for: "num"} 数量*
+    %label.col-lg-2.control-label 数量*
     .col-lg-4
       %input.form-control{name: "package[num]", placeholder: "数量", type: "number"}
     .col-lg-4
       %input.form-control{name: "package[unit]", placeholder: "单位", type: "text"}
   .form-group
-    %label.col-lg-2.control-label{for: "_package_desc"} 描述&nbsp;
+    %label.col-lg-2.control-label 描述&nbsp;
     .col-lg-10
       %textarea#_package_desc.form-control{name: "package[desc]", placeholder: "描述", type: "text"}
   .form-group
-    .col-lg-offset-4.col-lg-4
+    .col-lg-4
       %button#submit.btn.btn-default{type: "submit", name: "submit", value: "submit"} 提交
     //.col-lg-4
     //  %button#reset.btn.btn-default{:type => "button"} 重置

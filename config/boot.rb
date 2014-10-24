@@ -41,15 +41,15 @@ $:.unshift("%s/lib/tasks" % root_path)
   $:.unshift("%s/app/%s" % [root_path, path])
 end
 
+require "lib/utils/boot.rb"
+include Utils::Boot
 # config文夹下为配置信息优先加载
 # modle信息已在asset-hanler中加载
 # asset-hanel嵌入在application_controller
 require "asset-handler"
 require "form-helpers"
 
-# application must be first
-# other controller base on it
-require "lib/utils/boot.rb"
-include Utils::Boot
+# helper will include into controller
+# helper load before controller
 recursion_require("app/helpers", /_helper\.rb$/, root_path)
 recursion_require("app/controllers", /_controller\.rb$/, root_path, [/^application_/])
