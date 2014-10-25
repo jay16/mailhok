@@ -1,5 +1,4 @@
 ﻿#encoding: utf-8
-require 'digest/md5'
 class API::Version1 < API::ApplicationController
   before do; 
     authenticate! 
@@ -44,10 +43,9 @@ class API::Version1 < API::ApplicationController
     email   = params[:mid]
     desc    = params[:to]
     _uid = "%s%s%s%s%d%d" % [subject, uid, email, desc, Time.now.to_i, rand()]
-    uid = Digest::MD5.hexdigest(_uid)
     track = Track.create({
       :subject => subject,
-      :user_id => uid,
+      :user_id => uuid(_uid),
       :email   => email,
       :desc    => desc,
       :uid     => uid,
@@ -66,7 +64,7 @@ class API::Version1 < API::ApplicationController
   get "/:pre_paid_type/pre_paid_code.json" do
     if @current_user 
       pre_paid_type = "%s%d%s%d%d" % [@current_user.email, @current_user.id, params[:pre_paid_type], Time.now.to_i, rand()]
-      pre_paid_code = Digest::MD5.hexdigest(pre_paid_type.to_s)
+      pre_paid_code = uuid(pre_paid_type.to_s)
       json = { 
         :pre_paid_type => params[:pre_paid_type],
         :pre_paid_code => pre_paid_code

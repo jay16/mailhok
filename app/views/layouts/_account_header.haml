@@ -8,36 +8,32 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to "控制台", "/cpanel", class: "navbar-brand"
-    / Collect the nav links, forms, and other content for toggling
+      = link_to "MailHok", "/account", class: "navbar-brand"
     .collapse.navbar-collapse{role: "navigation", id:"bs-example-navbar-collapse-1"}
       %ul.nav.navbar-nav
-        %li.active= link_to "概况", "/cpanel"
-        %li= link_to "用户", "/cpanel/users"
-        %li= link_to "套餐", "/cpanel/packages"
-        %li= link_to "追踪", "/cpanel/tracks"
-        %li= link_to "开信", "/cpanel/records"
-        %li= link_to "订单", "/cpanel/orders"
-        %li= link_to "商店", "/cpanel/store"
-        %li= link_to "路由", "/cpanel/routes"
+        %li= link_to "首页", "/account"
+        %li= link_to "追踪", "/account/tracks"
+        %li= link_to "开信", "/account/records"
+        %li= link_to "我的订单", "/account/orders"
 
       %ul.nav.navbar-nav.navbar-right
+        %li
+          = link_to "商店", "/store"
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             设置
             %b.caret
           %ul.dropdown-menu
             %li
-              %a
+              %a{href: "/account/edit"}
                 %i.glyphicon.glyphicon-user
                 账户设置
+            - if current_user && current_user.admin?
+              %li
+                %a{:href => "/cpanel"}
+                  %i.glyphicon.glyphicon-wrench
+                  后台管理
             %li
-              %a{:href => "/"}
-                %i.glyphicon.glyphicon-wrench
-                返回前台 
-            %li.divider
-            %li
-              = link_to "logout", method: :delete do
+              %a{href: "/user/logout"}
                 %i.glyphicon.glyphicon-log-out
                 退出
-

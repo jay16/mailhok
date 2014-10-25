@@ -20,10 +20,18 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
     haml :new, layout: :"../layouts/layout"
   end
 
+  # create
+  # POST /cpanel/packages
+  post "/" do
+    package = Package.create(params[:package])
+
+    redirect "/cpanel/packages"#/%d" % package.id
+  end
+
   # show 
   # GET /cpanel/packages/:id
   get "/:id" do
-    @package = Package.first(:id => params[:id])
+    @package = Package.first(id: params[:id])
 
     haml :show, layout: :"../layouts/layout"
   end
@@ -31,13 +39,16 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # edit
   # GET /cpanel/packages/:id/edit
   get "/:id/edit" do
-    @package = Package.first(:id => params[:id])
+    @package = Package.first(id: params[:id])
+
+    haml :edit, layout: :"../layouts/layout"
   end
 
-  # create
-  # POST /cpanel/packages
-  post "/" do
-    package = Package.create(params[:package])
+  # update
+  # POST /cpanel/packages/:id
+  post "/:id" do
+    package = Package.first(id: params[:id])
+    package.update(params[:package])
 
     redirect "/cpanel/packages/%d" % package.id
   end
@@ -45,5 +56,7 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # delete
   # DELETE /cpanel/packages/:id
   delete "/:id" do
+    package = Package.first(id: params[:id])
+    package.destroy
   end
 end

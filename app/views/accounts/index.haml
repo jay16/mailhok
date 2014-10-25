@@ -1,11 +1,7 @@
 -#encoding: utf-8
-
 .row
   %h1
     = current_user.name
-    - if current_user.admin?
-      %small
-        %a{href: "/cpanel"} 控制台
 
 .row
   使用PrePaidCode

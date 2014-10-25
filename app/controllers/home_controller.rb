@@ -4,10 +4,15 @@ class HomeController < ApplicationController
 
   # root page
   get "/" do
-    if current_user
-      redirect "/account"
-    end
+    redirect "/account" if current_user
+
     haml :index
+  end
+
+  get "/store" do
+    @packages = Package.all
+
+    haml :store, layout: :"../layouts/layout"
   end
 
   # redirect to cpanel

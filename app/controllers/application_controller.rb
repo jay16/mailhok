@@ -1,5 +1,6 @@
 ﻿#encoding: utf-8
 #require 'sinatra/advanced_routes'
+require 'digest/md5'
 class ApplicationController < Sinatra::Base
   register Sinatra::Reloader
   register Sinatra::Flash
@@ -35,6 +36,11 @@ class ApplicationController < Sinatra::Base
   def run_shell(cmd)
     IO.popen(cmd) { |stdout| stdout.reject(&:empty?) }.unshift($?.exitstatus.zero?)
   end 
+
+  def uuid(str)
+    str += Time.to_s + rand(10000).to_s
+    Digest::MD5.hexdigest(str)
+  end
 
   def current_user
     @current_user ||= User.first(email: request.cookies["cookie_user_login_state"])

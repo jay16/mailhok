@@ -1,28 +1,29 @@
 = stylesheet_link_tag "/stylesheets/bootstrapValidator.min.css"
 = javascript_include_tag "/javascripts/bootstrapValidator.js"
 
-%form#packageForm.form-horizontal{role: "form", "accept-charset" => "UTF-8", action: "/cpanel/packages", method: "post", novalidate: "novalidate"}
+- url = "/cpanel/packages" + (@package.id.nil? ? "" : "/%d" % @package.id)
+%form#packageForm.form-horizontal{role: "form", "accept-charset" => "UTF-8", action: url, method: "post", novalidate: "novalidate"}
   .form-group
     %label.col-lg-2.control-label 名称*
     .col-lg-10
-      %input.form-control{name: "package[name]", placeholder: "套餐名称", type: "text"}
+      %input.form-control{name: "package[name]", placeholder: "套餐名称", type: "text", value: @package.name}
   .form-group
     %label.col-lg-2.control-label 价格*
     .col-lg-10
-      %input.form-control{name: "package[price]", placeholder: "价格", type: "text"}
+      %input.form-control{name: "package[price]", placeholder: "价格", type: "text", value: @package.price}
   .form-group
     %label.col-lg-2.control-label 数量*
     .col-lg-4
-      %input.form-control{name: "package[num]", placeholder: "数量", type: "number"}
+      %input.form-control{name: "package[num]", placeholder: "数量", type: "number", value: @package.num}
     .col-lg-4
-      %input.form-control{name: "package[unit]", placeholder: "单位", type: "text"}
+      %input.form-control{name: "package[unit]", placeholder: "单位", type: "text", value: @package.unit}
   .form-group
     %label.col-lg-2.control-label 描述&nbsp;
     .col-lg-10
-      %textarea.form-control{name: "package[desc]", placeholder: "描述", type: "text"}
+      %textarea.form-control{name: "package[desc]", placeholder: "描述", type: "text", value: @package.desc}
   .form-group
     .col-lg-offset-2.col-lg-4
-      %button.btn.btn-default{type: "submit"} 提交
+      %button.btn.btn-primary{type: "submit"} 提交
       %button#resetBtn.btn.btn-default{:type => "button"} 重置
 
 

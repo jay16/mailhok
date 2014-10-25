@@ -18,6 +18,9 @@ class AccountsController < ApplicationController
 
   # get /account/edit
   get "/edit" do
+    @user = User.first(id: current_user.id)
+
+    haml :edit, layout: :"../layouts/layout"
   end
 
   # post /account/update

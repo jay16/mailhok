@@ -15,6 +15,15 @@ $(document).ready ->
       validating: "glyphicon glyphicon-refresh"
 
     fields:
+      "user[name]":
+        validators:
+          stringLength:
+            min: 3
+            max: 30
+            message: "用户名称长度应在3-30字母之间."
+          regexp:
+            regexp: /^[a-zA-Z0-9_\.]+$/
+            message: "用户名称应由字母、数字、下划线、逗点组成."
       "user[email]":
         validators:
           notEmpty:

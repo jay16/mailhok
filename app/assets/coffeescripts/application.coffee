@@ -34,12 +34,39 @@ window.App =
       $(self).removeAttr("checked")
       return false
 
+  reloadWindow: ->
+    window.location.reload()
+
+  cpanelNavbarInit: ->
+    pathname = window.location.pathname
+    klass = "." + pathname.split("/").join("-")
+    console.log(klass)
+    $(klass).siblings("li").removeClass("active")
+    $(klass).addClass("active")
+
+  resizeWindow: ->
+    w = window
+    d = document
+    e = d.documentElement
+    g = d.getElementsByTagName("body")[0]
+    x = w.innerWidth or e.clientWidth or g.clientWidth
+    y = w.innerHeight or e.clientHeight #|| g.clientHeight;
+
+    nav_height    = 80 || $("nav:first").height()
+    footer_height = 100 || $("footer:first").height()
+    main_height   = y - nav_height - footer_height
+    if main_height > 300
+      $("#main").css
+        height: main_height + "px"
+
 # NProgress
 NProgress.configure
   speed: 500
 
 $ ->
   NProgress.start()
+
+  App.resizeWindow()
 
   $("body").tooltip
     selector: "[data-toggle=tooltip]"

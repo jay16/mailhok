@@ -16,6 +16,7 @@ map("/cpanel/users")    { run Cpanel::UsersController }
 map("/cpanel/packages") { run Cpanel::PackagesController }
 map("/cpanel/tracks")   { run Cpanel::TracksController }
 map("/cpanel/records")  { run Cpanel::RecordsController }
+map("/cpanel/orders")   { run Cpanel::OrdersController }
 
 
 #run Sinatra::Application

@@ -1,17 +1,44 @@
+.row
+  - if @order_item.save
+    yes
+  - else
+    = @order_item.errors.inspect
+
 %h1 订单明细
+.row
+  %dl.dl-horizontal
+    %dt 订单号
+    %dd= @order.out_trade_no
+    %dt 商品数量
+    %dd= @order.quantity
+    %dt 合计
+    %dd= @order.amount
+    %dt 创建时间
+    %dd= @order.created_at.strftime("%Y-%m-%d %H:%M")
+    %dt 使用状态
+    %dd= @order.status
 
-=link_to "订单列表", "/admin", { class: "btn btn-default right", style: "margin-top: -40px;"}
-
-.row 
-  .col-sm-6
-    %p 订单信息
-
-    %table.table.table-hover.table-bordered
-
-      - @columns.each do |key, value|
+%h3 商品明细
+.row
+  %table.table.table-condensed.table-striped
+    %thead
+      %tr
+        %th 序号
+        %th 商品名称
+        %th 商品价格
+        %th 期限
+        %th PrePaidCode
+        %th 使用状态
+        %th 创建时间
+    %tbody
+      - @order.order_items.each_with_index do |item, index|
         %tr
-          %td{style:"width:100px;"}= value
-          %td= @transaction.instance_variable_get("@"+key.to_s)
+          %td= index
+          %td= item.package_name
+          %td= item.package_price
+          %td= "%d x %s" % [item.package_num, item.package_unit]
+          %td= item.pre_paid_code
+          %td= item.status
+          %td= item.valid?
+          //%td= item.created_at.strftime("%Y-%m-%d %H:%M")
 
-  .col-sm-6
-    = haml :_order , layout: false if @order

@@ -9,6 +9,7 @@
     = javascript_include_tag "/javascripts/bootstrap.320.min.js"
     = javascript_include_tag "/javascripts/nprogress.js"
     = javascript_include_tag "/javascripts/application.js"
+    = javascript_include_tag "/javascripts/jquery_sinatra.js"
     = stylesheet_link_tag "/stylesheets/bootstrap.320.min.css"
     = stylesheet_link_tag "/stylesheets/nprogress.css"
     = stylesheet_link_tag "/stylesheets/application.scss"
@@ -22,7 +23,12 @@
           min-width:300px;
         }
   %body{style: "background:#f0f0f0;"}
-    .container
+    - if current_user
+      = haml :"../layouts/_account_header"
+    - else
+      = haml :"../layouts/_header"
+
+    .container#main
       .row
         .col-sm-12{style: "text-align:center;"}
           .loading.hidden 加载中...
@@ -32,10 +38,10 @@
           .col-sm-12
             = yield
         - else
-          .col-sm-10.col-sm-offset-1
+          .col-lg-8.col-lg-offset-2
             = yield
 
-    .container
+    .container#footer
       .row.center
         .footer &copy; 2014 mailhok.com
 
