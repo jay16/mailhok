@@ -10,7 +10,7 @@ class HomeController < ApplicationController
   end
 
   get "/store" do
-    @packages = Package.all
+    @packages = Package.all(:onsale => true)
 
     haml :store, layout: :"../layouts/layout"
   end

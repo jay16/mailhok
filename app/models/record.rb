@@ -7,8 +7,10 @@ class Record # 开信记录
     property :track_id   ,String , :required => true, :unique => true
     property :ip         ,String
     property :browser    ,String  
-    property :created_at ,DateTime, :default => DateTime.now
-    property :updated_at ,DateTime, :default => DateTime.now
+    property :created_at, DateTime
+    property :created_on, Date
+    property :updated_at, DateTime
+    property :updated_on, Date
 
     belongs_to :track
 end

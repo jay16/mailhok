@@ -23,9 +23,10 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # create
   # POST /cpanel/packages
   post "/" do
-    package = Package.create(params[:package])
+    package_params = params[:package].merge({ :creator_id => current_user.id })
+    Package.create(package_params)
 
-    redirect "/cpanel/packages"#/%d" % package.id
+    redirect "/cpanel/packages"
   end
 
   # show 
@@ -48,9 +49,18 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # POST /cpanel/packages/:id
   post "/:id" do
     package = Package.first(id: params[:id])
-    package.update(params[:package])
+    package_params = params[:package].merge({ :editor_id => current_user.id })
+    package.update(package_params)
 
-    redirect "/cpanel/packages/%d" % package.id
+    redirect "/cpanel/packages"#/%d" % package.id
+  end
+
+  # update [onsale]
+  # POST /cpanel/packages/:id/onsale
+  post "/:id/onsale" do
+    package = Package.first(id: params[:id])
+    package.update(:onsale => params[:onsale])
+    redirect "/cpanel/packages"
   end
 
   # delete

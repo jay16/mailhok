@@ -11,8 +11,10 @@ class Track # 用户创建追踪记录
     property :desc     , Text
     property :uid      , String
     property :type     , String
-    property :created_at ,DateTime , :default => DateTime.now
-    property :updated_at ,DateTime , :default => DateTime.now
+    property :created_at, DateTime
+    property :created_on, Date
+    property :updated_at, DateTime
+    property :updated_on, Date
 
     belongs_to :user
     has n, :records

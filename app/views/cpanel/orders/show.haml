@@ -1,9 +1,3 @@
-.row
-  - if @order_item.save
-    yes
-  - else
-    = @order_item.errors.inspect
-
 %h1 订单明细
 .row
   %dl.dl-horizontal
@@ -13,6 +7,8 @@
     %dd= @order.quantity
     %dt 合计
     %dd= @order.amount
+    %dt PrePaidCode
+    %dd= @order.pre_paid_code
     %dt 创建时间
     %dd= @order.created_at.strftime("%Y-%m-%d %H:%M")
     %dt 使用状态
@@ -39,6 +35,5 @@
           %td= "%d x %s" % [item.package_num, item.package_unit]
           %td= item.pre_paid_code
           %td= item.status
-          %td= item.valid?
-          //%td= item.created_at.strftime("%Y-%m-%d %H:%M")
+          %td= item.created_at.strftime("%Y-%m-%d %H:%M")
 

@@ -24,7 +24,7 @@ class Cpanel::HomeController < Cpanel::ApplicationController
   # store
   # get /cpanel/store
   get "/store" do
-    @packages = Package.all
+    @packages = Package.all(onsale: true)
 
     haml :store, layout: :"../layouts/layout"
   end

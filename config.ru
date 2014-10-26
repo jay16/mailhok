@@ -2,16 +2,17 @@ require "./config/boot.rb"
 
 
 # 公开界面
-map("/")       { run HomeController }
+map("/")                { run HomeController }
+map("/transactions")    { run TransactionsController }
 # /login/register
-map("/user")   { run UserController }
+map("/user")            { run UserController }
 
 # api#v1
-map("/api/v1") { run API::Version1 }
+map("/api/v1")          { run API::Version1 }
 
 # after login
-map("/account") { run AccountsController }
-map("/cpanel")  { run Cpanel::HomeController }
+map("/account")         { run AccountsController }
+map("/cpanel")          { run Cpanel::HomeController }
 map("/cpanel/users")    { run Cpanel::UsersController }
 map("/cpanel/packages") { run Cpanel::PackagesController }
 map("/cpanel/tracks")   { run Cpanel::TracksController }

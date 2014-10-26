@@ -14,8 +14,10 @@ class User
     property :expired_at, String  , :default => DateTime.now
     property :paid_at   , String  
     property :package_id, String  
-    property :created_at, DateTime, :default => DateTime.now
-    property :updated_at, DateTime, :default => DateTime.now
+    property :created_at, DateTime
+    property :created_on, Date
+    property :updated_at, DateTime
+    property :updated_on, Date
 
     has n, :orders
     has n, :tracks

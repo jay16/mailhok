@@ -37,10 +37,15 @@ class ApplicationController < Sinatra::Base
     IO.popen(cmd) { |stdout| stdout.reject(&:empty?) }.unshift($?.exitstatus.zero?)
   end 
 
+  ##### global function ####
   def uuid(str)
     str += Time.to_s + rand(10000).to_s
     Digest::MD5.hexdigest(str)
   end
+  def sample_3_alpha
+    (('a'..'z').to_a + ('A'..'Z').to_a).sample(3).join
+  end
+  ##### =============== #####
 
   def current_user
     @current_user ||= User.first(email: request.cookies["cookie_user_login_state"])

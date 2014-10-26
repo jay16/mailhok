@@ -12,8 +12,10 @@
         %th 名称
         %th 价格
         %th 使用期限
-        %th 状态
+        %th 创建/编辑者
         %th 操作
+        %th 时间
+        %th 在售状态
     %tbody
       - @packages.each_with_index do |package, index|
         - id = "package_%d" % package.id
@@ -24,7 +26,18 @@
             = package.num
             x
             .label.label-primary= package.unit
-          %td= package.onsale ? "在售" : "未售"
+          %td= "%d/%d" % [package.creator_id, package.editor_id]
           %td
-            %a{href: "/cpanel/packages/%d/edit" % package.id} 编辑
-            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/packages/%d','#%s');" % [package.id, id]} 删除
+            %a{href: "/cpanel/packages/%d/edit" % package.id}
+              %span.glyphicon.glyphicon-pencil
+            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/packages/%d','#%s');" % [package.id, id]}
+              %span.glyphicon.glyphicon-trash
+          %td
+            = "%s<br>%s" % [ package.created_at.strftime("%Y-%m-%d %H:%M"), package.updated_at.strftime("%Y-%m-%d %H:%M")]
+          %td
+            %form.form-inline{:action => "/cpanel/packages/%d/onsale" % package.id, :method => "post", :role => "form", "accept-charset" => "UTF-8"}
+              - if package.onsale
+                %input{:name => "onsale", :value => 0, :type => "checkbox", :checked => "true", :onchange => "$('#package_#{package.id}_submit').trigger('click');"}/
+              - else
+                %input{:name => "onsale", :value => 1, :type => "checkbox", :onchange => "$('#package_#{package.id}_submit').trigger('click');"}/
+              %input.hidden{:name => "commit", :type => "submit", :value => "submit", :id => "package_#{package.id}_submit"}

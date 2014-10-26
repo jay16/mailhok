@@ -41,6 +41,8 @@
     property :status       , Boolean, :required => false
     property :ip           , String # remote ip
     property :browser      , String 
-    property :created_at   , DateTime
-    property :updated_at   , DateTime
+    property :created_at, DateTime
+    property :created_on, Date
+    property :updated_at, DateTime
+    property :updated_on, Date
 end

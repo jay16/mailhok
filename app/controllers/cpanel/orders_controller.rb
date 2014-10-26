@@ -3,7 +3,6 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
   set :views, ENV["VIEW_PATH"] + "/cpanel/orders"
   #set :haml, layout: :"../layouts/layout"
 
-
   # list
   # GET /cpanel/orders
   get "/" do
@@ -12,26 +11,25 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
     haml :index, layout: :"../layouts/layout"
   end
 
-  # new
-  # GET /cpanel/new
-  get "/new" do
-    @order = Order.new
-
-    haml :new, layout: :"../layouts/layout"
-  end
-
   # create
   # POST /cpanel/orders
   post "/" do
-    params[:order].merge!({
-      out_trade_no: uuid(params.to_s),
-      pre_paid_code: uuid(params.to_s)
+    Order.raise_on_save_failure = false
+    order_params = params[:order].merge({
+      out_trade_no:  uuid(params.to_s),
+      pre_paid_code: Time.now.to_f.to_s
     })
-    puts params[:order].inspect
-    order = current_user.orders.create(params[:order])
-    puts order.inspect
+    order = current_user.orders.new(order_params)
+    if order.save
+      status = "/%d" % order.id
+      pre_paid_code = "%s%du%do%s" % ["otn", order.user_id, order.id, sample_3_alpha]
+      order.update(:pre_paid_code => pre_paid_code)
+      build_relation_with_items(order)
+    else
+      puts "Failed to save order: %s" % order.errors.inspect
+    end
 
-    redirect "/cpanel/orders"
+      redirect "/cpanel/orders%s" % (status || "")
   end
 
   # show 
@@ -65,4 +63,21 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
     order = Order.first(id: params[:id])
     order.destroy
   end
+
+  private
+    def build_relation_with_items(order)
+      JSON.parse("[%s]" % order.detail).each_with_index do |item, index|
+        quantity = item.delete("quantity").to_i
+        1.upto(quantity) do |i|
+          item.merge!({ pre_paid_code: Time.now.to_f.to_s })
+          order_item = order.order_items.new(item)
+          if order_item.save
+            pre_paid_code = "%s%du%do%d%s" % ["ppc", order.user_id, order.id, order_item.id, sample_3_alpha]
+            order_item.update(:pre_paid_code => pre_paid_code)
+          else
+            puts "Failed to save order_item: %s" % order_item.errors.inspect
+          end
+        end
+      end
+    end
 end
