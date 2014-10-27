@@ -26,4 +26,9 @@ class AccountsController < ApplicationController
   # post /account/update
   post "/update" do
   end
+
+  get "/orders" do
+    @orders = current_user.orders
+    haml :order, layout: :"../layouts/layout"
+  end
 end

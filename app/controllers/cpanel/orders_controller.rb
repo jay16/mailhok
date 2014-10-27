@@ -22,7 +22,7 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
     order = current_user.orders.new(order_params)
     if order.save
       status = "/%d" % order.id
-      pre_paid_code = "%s%du%do%s" % ["otn", order.user_id, order.id, sample_3_alpha]
+      pre_paid_code = "%s%du%do%s" % ["ppc", order.user_id, order.id, sample_3_alpha]
       order.update(:pre_paid_code => pre_paid_code)
       build_relation_with_items(order)
     else
@@ -61,6 +61,7 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
   # DELETE /cpanel/orders/:id
   delete "/:id" do
     order = Order.first(id: params[:id])
+    order.order_items.destroy
     order.destroy
   end
 
@@ -72,7 +73,7 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
           item.merge!({ pre_paid_code: Time.now.to_f.to_s })
           order_item = order.order_items.new(item)
           if order_item.save
-            pre_paid_code = "%s%du%do%d%s" % ["ppc", order.user_id, order.id, order_item.id, sample_3_alpha]
+            pre_paid_code = "%s%du%do%di%s" % ["ppc", order.user_id, order.id, order_item.id, sample_3_alpha]
             order_item.update(:pre_paid_code => pre_paid_code)
           else
             puts "Failed to save order_item: %s" % order_item.errors.inspect

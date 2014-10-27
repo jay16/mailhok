@@ -45,6 +45,12 @@ class ApplicationController < Sinatra::Base
   def sample_3_alpha
     (('a'..'z').to_a + ('A'..'Z').to_a).sample(3).join
   end
+  def regexp_ppc_order
+    @regexp_ppc_order ||= Regexp.new(Settings.regexp.order)
+  end
+  def regexp_ppc_order_item
+    @regexp_ppc_order_item ||= Regexp.new(Settings.regexp.order_item)
+  end
   ##### =============== #####
 
   def current_user

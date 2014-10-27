@@ -23,7 +23,7 @@
           min-width:300px;
         }
   %body{style: "background:#f0f0f0;"}
-    = haml :"../layouts/_cpanel_header" unless @without_header and @without_header == true
+    = haml :"../layouts/_cpanel_header" if @cpanel_header == true
     .container
       .row
         .col-sm-12{style: "text-align:center;"}

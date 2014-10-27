@@ -11,7 +11,7 @@ class User
     property :country   , String  
     property :province  , String  
     property :city      , String  
-    property :expired_at, String  , :default => DateTime.now
+    property :expired_at, DateTime  , :default => DateTime.now
     property :paid_at   , String  
     property :package_id, String  
     property :created_at, DateTime

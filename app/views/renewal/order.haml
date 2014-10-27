@@ -19,12 +19,12 @@
     %dd= @order.quantity
     %dt 商品合计
     %dd= "￥%.1f" % @order.amount
-    %dt 创建时间
-    %dd= @order.created_at.strftime("%Y-%m-%d %H:%M")
     %dt 使用状态
     %dd= "%s使用" % (@order.status ? "已" : "未")
+    %dt 创建时间
+    %dd= @order.created_at.strftime("%Y-%m-%d %H:%M")
 
-%h3 商品明细
+%h3 商品列表
 .row
   %table.table.table-condensed.table-striped
     %thead
@@ -35,11 +35,11 @@
         %th 续期
         %th PrePaidCode
         %th 使用状态
-        %th 创建时间
     %tbody
+      - _renewal = 0
       - @order.order_items.each_with_index do |item, index|
         %tr
-          %td= index
+          %td= index + 1
           %td= item.package_name
           %td= item.package_price
           %td= "%d x %s" % [item.package_num, item.package_unit]
@@ -48,5 +48,17 @@
             - i_status = (regexp_ppc_order_item =~ item.pre_paid_code ? "ok" : "remove")
             %i.glyphicon{class: "glyphicon-%s" % i_status}
           %td= "%s使用" % (item.status ? "已" : "未")
-          %td= item.created_at.strftime("%Y-%m-%d %H:%M")
-
+          - if not item.status
+            - _renewal += item.package_num  
+      %tr.success
+        %td
+        %td
+        %td
+          %td{colspan: "2", style: "vertical-align:middle;"}
+            = "共延期%d个月: %s => %s" % [_renewal, current_user.expired_at.strftime("%Y-%m-%d %H:%M"), (current_user.expired_at + _renewal * 30).strftime("%Y-%m-%d %H:%M")]
+        %td
+          - if not @order.status
+            %form.form-inline.col-sm-12{"accept-charset" => "UTF-8", action: "/renewal", method: "post", role: "form"}
+              %input.hidden{name: "klass", type: "hidden", value: "order"}/
+              %input.hidden{name: "ppc", type: "hidden", value: "%s" % @order.pre_paid_code}/
+              %input.btn.btn-default.btn-success{name: "commit", type: "submit", value: "提交"}

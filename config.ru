@@ -12,6 +12,7 @@ map("/api/v1")          { run API::Version1 }
 
 # after login
 map("/account")         { run AccountsController }
+map("/renewal")         { run RenewalController }
 map("/cpanel")          { run Cpanel::HomeController }
 map("/cpanel/users")    { run Cpanel::UsersController }
 map("/cpanel/packages") { run Cpanel::PackagesController }

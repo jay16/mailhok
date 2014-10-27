@@ -1,0 +1,20 @@
+= stylesheet_link_tag "/stylesheets/bootstrapValidator.min.css"
+= javascript_include_tag "/javascripts/bootstrapValidator.js"
+
+.page-header
+  %h2 续期MailHok
+
+%form#ppcForm.form-horizontal{action: "/renewal/ppc", method: "post"}
+  .form-group
+    %label.col-lg-2.control-label PrePaidCode
+    .col-lg-6
+      %input.form-control{name: "ppc", type: "text"}/
+  .form-group
+    %label#captchaOperation.col-lg-2.control-label
+    .col-lg-3
+      %input.form-control{name: "captcha", type: "text"}/
+  .form-group
+    .col-lg-3.col-lg-offset-2
+      %button.btn.btn-primary{type: "submit"} 提交
+
+= javascript_include_tag "/javascripts/ppc_validator.js"
