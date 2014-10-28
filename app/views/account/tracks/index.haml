@@ -1,0 +1,29 @@
+-#encoding: utf-8
+.row
+  .col-lg-6
+    %h1 Track列表 
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 订单号
+        %th PrePaidCode
+        %th 商品数量 
+        %th 总价格
+        %th 明细 
+        %th 操作
+    %tbody
+      - @tracks.each_with_index do |track, index|
+        - id = "track_%d" % track.id
+        %tr{id: id}
+          %td= track.out_trade_no
+          %td= track.pre_paid_code
+          %td= track.quantity
+          %td= track.amount
+          %td= track.track_items.count
+          %td
+            %a{href: "/account/tracks/%d" % track.id}
+              %span.glyphicon.glyphicon-eye-open
+            %button.hidden.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/tracks/%d','#%s');" % [track.id, id]}
+              %span.glyphicon.glyphicon-trash

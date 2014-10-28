@@ -12,10 +12,31 @@ class Package
     property :unit  , String , :default => "年"
     property :onsale, Boolean, :default => false
     property :desc  , Text   , :default => ""
+    property :delete_status, String, :default => "normal"
     property :creator_id, Integer, :default => -1
     property :editor_id , Integer, :default => -1
     property :created_at, DateTime
     property :created_on, Date
     property :updated_at, DateTime
     property :updated_on, Date
+
+    class << self
+      # sale status
+      def onsale
+        all(onsale: true)
+      end
+      def outsale
+        all(onsale: false)
+      end
+      # delete status
+      def normals
+        all(delete_status: "normal")
+      end
+      def softs
+        all(delete_status: "soft")
+      end
+      def hards
+        all(delete_status: "hard")
+      end
+    end
 end

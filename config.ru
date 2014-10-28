@@ -13,6 +13,7 @@ map("/account/orders")  { run Account::OrdersController }
 map("/account/renewal") { run Account::RenewalController }
 map("/account/tracks")  { run Account::TracksController }
 map("/account/records") { run Account::RecordsController }
+map("/account/trash")   { run Account::TrashController }
 # admin
 map("/cpanel")          { run Cpanel::HomeController }
 map("/cpanel/users")    { run Cpanel::UsersController }
@@ -20,6 +21,7 @@ map("/cpanel/packages") { run Cpanel::PackagesController }
 map("/cpanel/tracks")   { run Cpanel::TracksController }
 map("/cpanel/records")  { run Cpanel::RecordsController }
 map("/cpanel/orders")   { run Cpanel::OrdersController }
+map("/cpanel/trash")    { run Cpanel::TrashController }
 
 
 #run Sinatra::Application

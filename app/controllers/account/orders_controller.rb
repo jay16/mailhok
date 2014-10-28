@@ -5,7 +5,7 @@ class Account::OrdersController < Account::ApplicationController
   # list
   # GET /cpanel/orders
   get "/" do
-    @orders = current_user.orders
+    @orders = current_user.orders.normals
 
     haml :index, layout: :"../layouts/layout"
   end

@@ -11,6 +11,7 @@ class Track # 用户创建追踪记录
     property :desc     , Text
     property :uid      , String
     property :type     , String
+    property :delete_status, String, :default => "normal"
     property :created_at, DateTime
     property :created_on, Date
     property :updated_at, DateTime
@@ -18,4 +19,17 @@ class Track # 用户创建追踪记录
 
     belongs_to :user
     has n, :records
+
+    # delete status
+    class << self
+      def normals
+        all(delete_status: "normal")
+      end
+      def softs
+        all(delete_status: "soft")
+      end
+      def hards
+        all(delete_status: "hard")
+      end
+    end
 end

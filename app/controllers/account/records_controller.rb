@@ -5,7 +5,7 @@ class Account::RecordsController < Account::ApplicationController
   # list
   # GET /cpanel/records
   get "/" do
-    @records = current_user.records
+    @records = current_user.records.normals
 
     haml :index, layout: :"../layouts/layout"
   end

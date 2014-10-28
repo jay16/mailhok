@@ -9,9 +9,9 @@ class Account::UserController< Account::ApplicationController
   # page index
   # GET /account
   get "/" do
-    @tracks  = current_user.tracks
-    @records = current_user.records
-    @orders  = current_user.orders
+    @tracks  = current_user.tracks.normals
+    @records = current_user.records.normals
+    @orders  = current_user.orders.normals
 
     haml :index, layout: :"../layouts/layout"
   end
@@ -27,8 +27,9 @@ class Account::UserController< Account::ApplicationController
   post "/update" do
   end
 
-  get "/orders" do
-    @orders = current_user.orders
-    haml :order, layout: :"../layouts/layout"
+  get "/store" do
+    @packages = Package.all(:onsale => true)
+
+    haml :"../../home/store", layout: :"../layouts/layout"
   end
 end

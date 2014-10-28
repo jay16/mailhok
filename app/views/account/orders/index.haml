@@ -25,5 +25,5 @@
           %td
             %a{href: "/account/orders/%d" % order.id}
               %span.glyphicon.glyphicon-eye-open
-            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/orders/%d','#%s');" % [order.id, id]}
+            %button.hidden.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/orders/%d','#%s');" % [order.id, id]}
               %span.glyphicon.glyphicon-trash

@@ -14,6 +14,7 @@ class Order
     property :status,   Boolean, :default => false # whether transaction over
     property :ip,       String  # remote ip
     property :browser,  String 
+    property :delete_status, String, :default => "normal"
     property :created_at, DateTime
     property :created_on, Date
     property :updated_at, DateTime
@@ -27,6 +28,19 @@ class Order
     end
     after :save do |order|
       puts "After :save doing..."
+    end
+
+    # delete status
+    class << self
+      def normals
+        all(delete_status: "normal")
+      end
+      def softs
+        all(delete_status: "soft")
+      end
+      def hards
+        all(delete_status: "hard")
+      end
     end
 end
 

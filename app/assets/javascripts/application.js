@@ -68,7 +68,7 @@
     initBootstrapNavbarLi: function() {
       var $_li, is_match, navbar_lis, pathname, _a_href, _a_val, _second_path, _second_val;
       pathname = window.location.pathname;
-      navbar_lis = $(".navbar-nav:first li, .navbar-right li:lt(1)");
+      navbar_lis = $(".navbar-nav:first li, .navbar-right li:lt(2)");
       is_match = false;
       navbar_lis.each(function() {
         var href;

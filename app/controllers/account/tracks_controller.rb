@@ -5,7 +5,7 @@ class Account::TracksController < Account::ApplicationController
   # list
   # GET /cpanel/tracks
   get "/" do
-    @tracks = current_user.tracks
+    @tracks = current_user.tracks.normals
 
     haml :index, layout: :"../layouts/layout"
   end

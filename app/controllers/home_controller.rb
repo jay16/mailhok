@@ -10,7 +10,8 @@ class HomeController < ApplicationController
   end
 
   get "/store" do
-    @packages = Package.all(:onsale => true)
+    redirect "/account/store" if current_user
+    @packages = Package.onsale
 
     haml :store, layout: :"../layouts/layout"
   end
