@@ -1,13 +1,15 @@
 #encoding: utf-8
 window.Sinatra=
-  deleteWithAjax: (remote_url, delete_dom) ->
-    console.log(remote_url)
-    console.log(delete_dom)
+  selfAjax: (type, url, dom) ->
     $.ajax(
-      type: "delete"
-      url: remote_url
+      type: type 
+      url: url
       success: (data) ->
-        $(delete_dom).remove()
+        $(dom).remove()
       error: ->
         alert("error:delete with ajax!")
     )
+  deleteWithAjax: (url, dom, alert) ->
+    if confirm(alert, "确定删除") is true
+      Sinatra.selfAjax("delete", url, dom)
+

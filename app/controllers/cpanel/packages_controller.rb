@@ -7,7 +7,7 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # list
   # GET /cpanel/packages
   get "/" do
-    @packages = Package.all
+    @packages = Package.normals
 
     haml :index, layout: :"../layouts/layout"
   end
@@ -65,8 +65,13 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
 
   # delete
   # DELETE /cpanel/packages/:id
-  delete "/:id" do
+  delete "/:id/:status" do
     package = Package.first(id: params[:id])
-    package.destroy
+    case params[:status] 
+    when "soft","hard", "undo"
+      package.update(delete_status: params[:status])
+    else
+      puts "Wrong Params: %s" % params
+    end
   end
 end

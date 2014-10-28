@@ -59,7 +59,8 @@ window.App =
   initBootstrapNavbarLi: ->
     # navbar-nav active menu
     pathname = window.location.pathname
-    navbar_lis = $(".navbar-nav:first li, .navbar-right li:lt(2)")
+    navbar_right_lis = $("#navbar_right_lis").val() || 1
+    navbar_lis = $(".navbar-nav:first li, .navbar-right li:lt("+navbar_right_lis+")")
     is_match = false
     navbar_lis.each ->
       href = $(this).children("a:first").attr("href")

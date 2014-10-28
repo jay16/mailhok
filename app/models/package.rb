@@ -20,6 +20,7 @@ class Package
     property :updated_at, DateTime
     property :updated_on, Date
 
+    # class methods
     class << self
       # sale status
       def onsale
@@ -31,6 +32,9 @@ class Package
       # delete status
       def normals
         all(delete_status: "normal")
+      end
+      def not_normals
+        all(:delete_status.not => "normal")
       end
       def softs
         all(delete_status: "soft")

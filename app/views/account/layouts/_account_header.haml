@@ -16,28 +16,40 @@
         %li= link_to "开信", "/account/records"
         %li= link_to "我的订单", "/account/orders"
 
+      - is_admin = current_user and current_user.admin?
+      %input#navbar_right_lis{type: "hidden", value: 2}/
       %ul.nav.navbar-nav.navbar-right
         %li
-          = link_to "商店", "/account/store"
+          %a{href: "/account/store"}
+            %i.glyphicon.glyphicon-shopping-cart
         %li
-          = link_to "回收站", "/account/trash"
+          %a{href: "/account/trash"}
+            %i.glyphicon.glyphicon-trash
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             设置
             %b.caret
           %ul.dropdown-menu
             %li
-              %a{href: "/account/edit"}
+              %a
                 %i.glyphicon.glyphicon-user
                 账户设置
-            - if current_user && current_user.admin?
-              %li
-                %a{:href => "/cpanel"}
-                  %i.glyphicon.glyphicon-wrench
-                  后台管理
+            %li.divider
             %li
-              %a{href: "/user/logout"}
+              %a{href: "/account/store"}
+                %i.glyphicon.glyphicon-shopping-cart
+                商店
+            %li
+              %a{href: "/account/trash"}
+                %i.glyphicon.glyphicon-trash
+                回收站
+            %li
+              %a{:href => "/cpanel"}
+                %i.glyphicon.glyphicon-home
+                后台管理
+            %li.divider
+            %li
+              %a{:href => "/user/logout"}
                 %i.glyphicon.glyphicon-log-out
                 退出
-
 = haml :"../../shared/_breadcrumb"

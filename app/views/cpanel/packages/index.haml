@@ -23,14 +23,13 @@
           %td= package.name
           %td= "￥%d" % package.price
           %td
-            = package.num
-            x
+            = "%02d x" % package.num
             .label.label-primary= package.unit
           %td= "%d/%d" % [package.creator_id, package.editor_id]
           %td
             %a{href: "/cpanel/packages/%d/edit" % package.id}
               %span.glyphicon.glyphicon-pencil
-            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/packages/%d','#%s');" % [package.id, id]}
+            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/packages/%d/soft','#%s', '%s');" % [package.id, id, package.name]}
               %span.glyphicon.glyphicon-trash
           %td
             = "%s<br>%s" % [ package.created_at.strftime("%Y-%m-%d %H:%M"), package.updated_at.strftime("%Y-%m-%d %H:%M")]

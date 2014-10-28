@@ -1,5 +1,5 @@
 #encoding: utf-8 
-class Cpanel::TracksController < Account::ApplicationController
+class Cpanel::TracksController < Cpanel::ApplicationController
   set :views, ENV["VIEW_PATH"] + "/cpanel/tracks"
 
   # list

@@ -23,20 +23,20 @@
           max-width: 1000px;
           min-width:300px;
         }
+    :css
+      .container {
+        max-width: 940px;
+      }
   %body{style: "background:#f0f0f0;"}
     = haml :"../layouts/_cpanel_header" #if @cpanel_header == true
-    .container
+    .container#main
       .row
         .col-sm-12{style: "text-align:center;"}
           .loading.hidden 加载中...
           = flash_message
       .row
-        - if mobile?
-          .col-sm-12
-            = yield
-        - else
-          .col-sm-10.col-sm-offset-1
-            = yield
+        .col-sm-12
+          = yield
 
     .container
       .row.center

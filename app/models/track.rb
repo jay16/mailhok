@@ -20,10 +20,14 @@ class Track # 用户创建追踪记录
     belongs_to :user
     has n, :records
 
-    # delete status
+    # class methods
     class << self
+      # delete status
       def normals
         all(delete_status: "normal")
+      end
+      def not_normals
+        all(:delete_status.not => "normal")
       end
       def softs
         all(delete_status: "soft")

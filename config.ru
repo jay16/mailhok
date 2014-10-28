@@ -1,7 +1,7 @@
 require "./config/boot.rb"
 
 
-# 公开界面
+# public
 map("/")                { run HomeController }
 map("/transactions")    { run TransactionsController }
 map("/user")            { run UserController }

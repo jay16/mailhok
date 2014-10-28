@@ -58,7 +58,7 @@
             = "共延期%d个月: %s => %s" % [_renewal, current_user.expired_at.strftime("%Y-%m-%d %H:%M"), (current_user.expired_at + _renewal * 30).strftime("%Y-%m-%d %H:%M")]
         %td
           - if not @order.status
-            %form.form-inline.col-sm-12{"accept-charset" => "UTF-8", action: "/renewal", method: "post", role: "form"}
+            %form.form-inline.col-sm-12{"accept-charset" => "UTF-8", action: "/account/renewal", method: "post", role: "form"}
               %input.hidden{name: "klass", type: "hidden", value: "order"}/
               %input.hidden{name: "ppc", type: "hidden", value: "%s" % @order.pre_paid_code}/
               %input.btn.btn-default.btn-success{name: "commit", type: "submit", value: "提交"}

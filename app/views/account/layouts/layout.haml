@@ -23,13 +23,17 @@
           max-width: 1000px;
           min-width:300px;
         }
+    :css
+      .container {
+        max-width: 940px;
+      }
   %body{style: "background:#f0f0f0;"}
     - if current_user
       = haml :"../layouts/_account_header"
     - else
       = haml :"../layouts/_header"
 
-    .container#main
+    .container#main{style: "max-with:940px;"}
       .row
         .col-sm-12{style: "text-align:center;"}
           .loading.hidden 加载中...

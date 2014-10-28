@@ -20,9 +20,17 @@
         %li= link_to "订单", "/cpanel/orders"
         %li= link_to "路由", "/cpanel/routes"
 
+      %input#navbar_right_lis{type: "hidden", value: 3}/
       %ul.nav.navbar-nav.navbar-right
-        %li= link_to "商店", "/cpanel/store"
-        %li= link_to "回收站", "/cpanel/trash"
+        %li
+          %a{href: "/account"}
+            %i.glyphicon.glyphicon-home
+        %li
+          %a{href: "/cpanel/store"}
+            %i.glyphicon.glyphicon-shopping-cart
+        %li
+          %a{href: "/cpanel/trash"}
+            %i.glyphicon.glyphicon-trash
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             设置
@@ -32,9 +40,18 @@
               %a
                 %i.glyphicon.glyphicon-user
                 账户设置
+            %li.divider
             %li
-              %a{:href => "/"}
-                %i.glyphicon.glyphicon-wrench
+              %a{href: "/cpanel/store"}
+                %i.glyphicon.glyphicon-shopping-cart
+                商店
+            %li
+              %a{href: "/cpanel/trash"}
+                %i.glyphicon.glyphicon-trash
+                回收站
+            %li
+              %a{:href => "/account"}
+                %i.glyphicon.glyphicon-home
                 返回前台 
             %li.divider
             %li

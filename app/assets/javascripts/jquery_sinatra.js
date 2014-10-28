@@ -1,18 +1,21 @@
 (function() {
   window.Sinatra = {
-    deleteWithAjax: function(remote_url, delete_dom) {
-      console.log(remote_url);
-      console.log(delete_dom);
+    selfAjax: function(type, url, dom) {
       return $.ajax({
-        type: "delete",
-        url: remote_url,
+        type: type,
+        url: url,
         success: function(data) {
-          return $(delete_dom).remove();
+          return $(dom).remove();
         },
         error: function() {
           return alert("error:delete with ajax!");
         }
       });
+    },
+    deleteWithAjax: function(url, dom, alert) {
+      if (confirm(alert, "确定删除") === true) {
+        return Sinatra.selfAjax("delete", url, dom);
+      }
     }
   };
 
