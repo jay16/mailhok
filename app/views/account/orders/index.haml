@@ -1,0 +1,29 @@
+-#encoding: utf-8
+.row
+  .col-lg-6
+    %h1 订单列表 
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 订单号
+        %th PrePaidCode
+        %th 商品数量 
+        %th 总价格
+        %th 明细 
+        %th 操作
+    %tbody
+      - @orders.each_with_index do |order, index|
+        - id = "order_%d" % order.id
+        %tr{id: id}
+          %td= order.out_trade_no
+          %td= order.pre_paid_code
+          %td= order.quantity
+          %td= order.amount
+          %td= order.order_items.count
+          %td
+            %a{href: "/account/orders/%d" % order.id}
+              %span.glyphicon.glyphicon-eye-open
+            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/orders/%d','#%s');" % [order.id, id]}
+              %span.glyphicon.glyphicon-trash

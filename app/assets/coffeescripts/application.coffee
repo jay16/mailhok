@@ -2,15 +2,12 @@
 window.App =
   showLoading: ->
     $(".loading").removeClass("hidden")
-
   showLoading: (text) ->
     $(".loading").html(text)
     $(".loading").removeClass("hidden")
-
   hideLoading:->
     $(".loading").addClass("hidden")
     $(".loading").html("loading...")
-
   # checkbox operation
   checkboxState: (self) ->
     state = $(self).attr("checked")
@@ -59,36 +56,68 @@ window.App =
       $("#main").css
         height: main_height + "px"
 
+  initBootstrapNavbarLi: ->
+    # navbar-nav active menu
+    pathname = window.location.pathname
+    navbar_lis = $(".navbar-nav:first li, .navbar-right li:lt(1)")
+    is_match = false
+    navbar_lis.each ->
+      href = $(this).children("a:first").attr("href")
+      if pathname is href
+        $(this).addClass("active")
+        is_match = true
+      else
+        $(this).removeClass("active")
+
+    if !is_match
+      _a_href = ""
+      _a_val  = ""
+      $_li    = $("a:first")
+      navbar_lis.each ->
+        $a_first = $(this).children("a:first")
+        href = $a_first.attr("href")
+        if pathname.startsWith(href) and _a_href.length < href.length
+          _a_href = href
+          _a_val  = $a_first.text()
+          $_li    = $(this)
+
+      $_li.addClass("active")
+      $("#breadcrumb").removeClass("hidden")
+      $(".first-level a").attr("href", _a_href)
+      $(".first-level a").html(_a_val)
+      _second_path = pathname.replace(_a_href, "")
+      _second_val  = _a_val.replace("我的", "")
+      if _second_path.match(/^\/\d+$/)
+        _second_val = _second_val + "[明细]"
+      else if _second_path.match(/^\/new$/)
+        _second_val = "[新建]" + _second_val
+      else if _second_path.match(/^\/\d+\/edit$/)
+        _second_val = "[编辑]" + _second_val
+      $(".second-level").html(_second_val) 
+
+
+  initBootstrapPopover: ->
+    $("body").popover
+      selector: "[data-toggle=popover]"
+      container: "body"
+
+  initBootstrapTooltip: ->
+    $("body").tooltip
+      selector: "[data-toggle=tooltip]"
+      container: "body"
+
 # NProgress
 NProgress.configure
   speed: 500
-
+#$.getScript "/javascripts/js_util.js", ->
+#  console.log("load /javascripts/js_util.js successfully.")
 $ ->
   NProgress.start()
-
   App.resizeWindow()
-
-  $("body").tooltip
-    selector: "[data-toggle=tooltip]"
-    container: "body"
-
   NProgress.set(0.2)
-
-  $("body").popover
-    selector: "[data-toggle=popover]"
-    container: "body"
-
+  App.initBootstrapPopover()
   NProgress.set(0.4)
-  
-  # navbar-nav active menu
-  pathname = window.location.pathname
-  $(".navbar-nav:first li").each ->
-    href = $(this).children("a:first").attr("href")
-    if pathname is href
-      $(this).addClass "active"
-    else
-      $(this).removeClass "active"
-
+  App.initBootstrapTooltip()
   NProgress.set(0.8)
-
+  App.initBootstrapNavbarLi()
   NProgress.done(true)

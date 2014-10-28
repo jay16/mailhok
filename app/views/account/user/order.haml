@@ -23,7 +23,7 @@
           %td= order.amount
           %td= order.order_items.count
           %td
-            %a{href: "/cpanel/orders/%d" % order.id}
+            %a{href: "/orders/%d" % order.id}
               %span.glyphicon.glyphicon-eye-open
             %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/orders/%d','#%s');" % [order.id, id]}
               %span.glyphicon.glyphicon-trash

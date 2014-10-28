@@ -8,6 +8,7 @@
     = javascript_include_tag "/javascripts/jquery-2.1.1.min.js"
     = javascript_include_tag "/javascripts/bootstrap.320.min.js"
     = javascript_include_tag "/javascripts/nprogress.js"
+    = javascript_include_tag "/javascripts/js_utils.js"
     = javascript_include_tag "/javascripts/application.js"
     = javascript_include_tag "/javascripts/jquery_sinatra.js"
     = stylesheet_link_tag "/stylesheets/bootstrap.320.min.css"
@@ -23,23 +24,15 @@
           min-width:300px;
         }
   %body{style: "background:#f0f0f0;"}
-    - if current_user
-      = haml :"../layouts/_account_header"
-    - else
-      = haml :"../layouts/_header"
-
+    = haml :"../layouts/_header"
     .container#main
       .row
         .col-sm-12{style: "text-align:center;"}
           .loading.hidden 加载中...
           = flash_message
       .row
-        - if mobile?
-          .col-sm-12
-            = yield
-        - else
-          .col-lg-8.col-lg-offset-2
-            = yield
+        .col-sm-12
+          = yield
 
     .container#footer
       .row.center

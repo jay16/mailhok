@@ -37,7 +37,8 @@
                 返回前台 
             %li.divider
             %li
-              = link_to "logout", method: :delete do
+              %a{:href => "/user/logout"}
                 %i.glyphicon.glyphicon-log-out
                 退出
 
+= haml :"../../shared/_breadcrumb"

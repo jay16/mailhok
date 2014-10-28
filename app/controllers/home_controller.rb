@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   get "/" do
     redirect "/account" if current_user
 
-    haml :index
+    haml :index, layout: :"../layouts/layout"
   end
 
   get "/store" do

@@ -1,6 +1,6 @@
 ﻿#encoding: utf-8 
-class RenewalController < ApplicationController
-  set :views, ENV["VIEW_PATH"] + "/renewal"
+class Account::RenewalController < Account::ApplicationController
+  set :views, ENV["VIEW_PATH"] + "/account/renewal"
 
   # pre_paid_code usage
   # GET /renewal

@@ -1,14 +1,16 @@
-%h1 购物车 - MailHok
+.page-header
+  .row
+    .col-lg-6
+      %h3 购物车
 
-%a.btn.btn-default.right{href: "/account", style: "margin-top:-40px;"} 返回
 :css
   .table th { width: 20%; }
 %table.table.table-striped
-  %thead
+  %thead{style:"background: #5C4033;color:lightgray;"}
     %tr
       %th 套餐名称
       %th 价格
-      %th 期限
+      %th 延期
       %th 数量
       %th 小计
   %tbody
@@ -36,9 +38,9 @@
     %tr.success
       %td
       %td{colspan: "2", style: "text-align: right;vertical-align:middle;"}
-        已选购
+        已选商品
         %span.total-quantity{style: "font-size:18px;"} 0
-        件商品
+        件
       %td{style: "vertical-align:middle;"}
         合计￥
         %span.total-amount{style:"font-size:18px;"} 0

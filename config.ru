@@ -4,15 +4,16 @@ require "./config/boot.rb"
 # 公开界面
 map("/")                { run HomeController }
 map("/transactions")    { run TransactionsController }
-# /login/register
 map("/user")            { run UserController }
-
-# api#v1
 map("/api/v1")          { run API::Version1 }
 
 # after login
-map("/account")         { run AccountsController }
-map("/renewal")         { run RenewalController }
+map("/account")         { run Account::UserController }
+map("/account/orders")  { run Account::OrdersController }
+map("/account/renewal") { run Account::RenewalController }
+map("/account/tracks")  { run Account::TracksController }
+map("/account/records") { run Account::RecordsController }
+# admin
 map("/cpanel")          { run Cpanel::HomeController }
 map("/cpanel/users")    { run Cpanel::UsersController }
 map("/cpanel/packages") { run Cpanel::PackagesController }

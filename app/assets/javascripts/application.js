@@ -64,6 +64,63 @@
           height: main_height + "px"
         });
       }
+    },
+    initBootstrapNavbarLi: function() {
+      var $_li, is_match, navbar_lis, pathname, _a_href, _a_val, _second_path, _second_val;
+      pathname = window.location.pathname;
+      navbar_lis = $(".navbar-nav:first li, .navbar-right li:lt(1)");
+      is_match = false;
+      navbar_lis.each(function() {
+        var href;
+        href = $(this).children("a:first").attr("href");
+        if (pathname === href) {
+          $(this).addClass("active");
+          return is_match = true;
+        } else {
+          return $(this).removeClass("active");
+        }
+      });
+      if (!is_match) {
+        _a_href = "";
+        _a_val = "";
+        $_li = $("a:first");
+        navbar_lis.each(function() {
+          var $a_first, href;
+          $a_first = $(this).children("a:first");
+          href = $a_first.attr("href");
+          if (pathname.startsWith(href) && _a_href.length < href.length) {
+            _a_href = href;
+            _a_val = $a_first.text();
+            return $_li = $(this);
+          }
+        });
+        $_li.addClass("active");
+        $("#breadcrumb").removeClass("hidden");
+        $(".first-level a").attr("href", _a_href);
+        $(".first-level a").html(_a_val);
+        _second_path = pathname.replace(_a_href, "");
+        _second_val = _a_val.replace("我的", "");
+        if (_second_path.match(/^\/\d+$/)) {
+          _second_val = _second_val + "[明细]";
+        } else if (_second_path.match(/^\/new$/)) {
+          _second_val = "[新建]" + _second_val;
+        } else if (_second_path.match(/^\/\d+\/edit$/)) {
+          _second_val = "[编辑]" + _second_val;
+        }
+        return $(".second-level").html(_second_val);
+      }
+    },
+    initBootstrapPopover: function() {
+      return $("body").popover({
+        selector: "[data-toggle=popover]",
+        container: "body"
+      });
+    },
+    initBootstrapTooltip: function() {
+      return $("body").tooltip({
+        selector: "[data-toggle=tooltip]",
+        container: "body"
+      });
     }
   };
 
@@ -72,30 +129,14 @@
   });
 
   $(function() {
-    var pathname;
     NProgress.start();
     App.resizeWindow();
-    $("body").tooltip({
-      selector: "[data-toggle=tooltip]",
-      container: "body"
-    });
     NProgress.set(0.2);
-    $("body").popover({
-      selector: "[data-toggle=popover]",
-      container: "body"
-    });
+    App.initBootstrapPopover();
     NProgress.set(0.4);
-    pathname = window.location.pathname;
-    $(".navbar-nav:first li").each(function() {
-      var href;
-      href = $(this).children("a:first").attr("href");
-      if (pathname === href) {
-        return $(this).addClass("active");
-      } else {
-        return $(this).removeClass("active");
-      }
-    });
+    App.initBootstrapTooltip();
     NProgress.set(0.8);
+    App.initBootstrapNavbarLi();
     return NProgress.done(true);
   });
 

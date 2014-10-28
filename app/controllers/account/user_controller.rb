@@ -1,6 +1,6 @@
 #encoding: utf-8 
-class AccountsController < ApplicationController
-  set :views, ENV["VIEW_PATH"] + "/accounts"
+class Account::UserController< Account::ApplicationController
+  set :views, ENV["VIEW_PATH"] + "/account/user"
   before do
     authenticate!
   end
