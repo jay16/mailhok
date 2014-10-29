@@ -1,7 +1,6 @@
 (function() {
   if (typeof String.prototype.startsWith !== 'function') {
     String.prototype.startsWith = function(str) {
-      console.log(str + " - " + typeof str);
       return this.slice(0, str.length) === str;
     };
   }

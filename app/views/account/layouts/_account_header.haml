@@ -17,14 +17,17 @@
         %li= link_to "我的订单", "/account/orders"
 
       - is_admin = current_user and current_user.admin?
-      %input#navbar_right_lis{type: "hidden", value: 2}/
+      %input#navbar_right_lis{type: "hidden", value: 3}/
       %ul.nav.navbar-nav.navbar-right
         %li
           %a{href: "/account/store"}
             %i.glyphicon.glyphicon-shopping-cart
         %li
+          %a{href: "/account/renewal"}
+            %i.glyphicon.glyphicon-transfer
+        %li
           %a{href: "/account/trash"}
-            %i.glyphicon.glyphicon-trash
+            %i.glyphicon.glyphicon-folder-close
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             设置
@@ -34,6 +37,10 @@
               %a
                 %i.glyphicon.glyphicon-user
                 账户设置
+            %li
+              %a{href: "/account/renewal"}
+                %i.glyphicon.glyphicon-transfer
+                续期
             %li.divider
             %li
               %a{href: "/account/store"}
@@ -41,7 +48,7 @@
                 商店
             %li
               %a{href: "/account/trash"}
-                %i.glyphicon.glyphicon-trash
+                %i.glyphicon.glyphicon-folder-close
                 回收站
             %li
               %a{:href => "/cpanel"}

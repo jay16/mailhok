@@ -1,6 +1,6 @@
 if (typeof String::startsWith != 'function') 
   String::startsWith = (str) ->
-    console.log(str + " - " + typeof(str))
+    #console.log(str + " - " + typeof(str))
     return this.slice(0, str.length) == str
  
 if (typeof String::endsWith != 'function')

@@ -98,15 +98,25 @@
         $_li.addClass("active");
         $("#breadcrumb").removeClass("hidden");
         $(".first-level a").attr("href", _a_href);
-        $(".first-level a").html(_a_val);
         _second_path = pathname.replace(_a_href, "");
-        _second_val = _a_val.replace("我的", "");
+        if ($.trim(_a_val).length) {
+          _a_val = _a_val.replace("我的", "");
+        } else if (_a_href === "/account/renewal") {
+          _a_val = "续期";
+        }
+        $(".first-level a").html(_a_val);
+        console.log(_a_val);
+        console.log(_a_href === "/account/renewal");
         if (_second_path.match(/^\/\d+$/)) {
           _second_val = _second_val + "[明细]";
         } else if (_second_path.match(/^\/new$/)) {
-          _second_val = "[新建]" + _second_val;
+          _second_val = "[新建]" + _a_val;
         } else if (_second_path.match(/^\/\d+\/edit$/)) {
-          _second_val = "[编辑]" + _second_val;
+          _second_val = "[编辑]" + _a_val;
+        } else if (_second_path.match(/^\/\w+\/order$/)) {
+          _second_val = "订单";
+        } else if (_second_path.match(/^\/\w+\/order_item$/)) {
+          _second_val = "商品";
         }
         return $(".second-level").html(_second_val);
       }
