@@ -1,0 +1,27 @@
+%table.table.table-striped.table-condensed
+  %thead
+    %tr
+      %th 名称
+      %th 价格
+      %th 使用期限
+      %th 创建/编辑者
+      %th 时间
+      %th 操作
+  %tbody
+    - @packages.each_with_index do |package, index|
+      - id = "trash_package_%d" % package.id
+      %tr{id: id}
+        %td= package.name
+        %td= "￥%.1f" % package.price
+        %td
+          = "%02d x" % package.num
+          .label.label-primary= package.unit
+        %td= "%d/%d" % [package.creator_id, package.editor_id]
+        %td
+          = "%s<br>%s" % [ package.created_at.strftime("%Y-%m-%d %H:%M"), package.updated_at.strftime("%Y-%m-%d %H:%M")]
+        %td
+          .btn-group
+            %a.btn.btn-default.btn-sm{href: "/cpanel/packages/%d" % package.id}
+              查看
+            %button.btn.btn-default.btn-sm{onclick: "Sinatra.operateWithAjax('post','/cpanel/trash/packages/%d/normal','#%s', '还原[%s]');" % [package.id, id, package.name]}
+              还原

@@ -20,8 +20,30 @@ class Package
     property :updated_at, DateTime
     property :updated_on, Date
 
+    # instance methods
+    def human_name
+      "套餐"
+    end
+    def soft_destroy
+      update(delete_status: "soft")
+    end
+    def hard_destroy
+      update(delete_status: "hard")
+    end
+    def delete?
+      %w[soft hard].include?(delete_status)
+    end
+    def creator
+      User.first(id: creator_id)
+    end
     # class methods
     class << self
+      def soft_destroy
+        update(delete_status: "soft")
+      end
+      def hard_destroy
+        update(delete_status: "hard")
+      end
       # sale status
       def onsale
         all(onsale: true)

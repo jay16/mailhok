@@ -20,8 +20,27 @@ class Track # 用户创建追踪记录
     belongs_to :user
     has n, :records
 
+    # instance methods
+    def human_name
+      "追踪"
+    end
+    def soft_destroy
+      update(delete_status: "soft")
+    end
+    def hard_destroy
+      update(delete_status: "hard")
+    end
+    def delete?
+      %w[soft hard].include?(delete_status)
+    end
     # class methods
     class << self
+      def soft_destroy
+        update(delete_status: "soft")
+      end
+      def hard_destroy
+        update(delete_status: "hard")
+      end
       # delete status
       def normals
         all(delete_status: "normal")

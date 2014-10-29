@@ -1,6 +1,8 @@
 -#encoding: utf-8
-.row
-  %h3 回收站
+.row.page-header
+  %h3{style: "display: inline-block;"} 回收站
+  %button.btn.btn-default.btn-sm{onclick: "Sinatra.operateWithAjax('delete','/account/trash/clear','', '清空[回收站]');"}
+    清空
 
 .row{style: "margin-top: 5px; background: white; border-radius: 5px;"}
   #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
@@ -12,7 +14,7 @@
             %span.badge= @orders.count
       #collapseOrder.panel-collapse.collapse{:role => "tabpanel", :style => "height: 0px;"}
         .panel-body
-          dd
+          = haml :_orders_panel
     .panel.panel-default
       .panel-heading
         %h4.panel-title

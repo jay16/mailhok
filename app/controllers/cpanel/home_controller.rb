@@ -29,34 +29,17 @@ class Cpanel::HomeController < Cpanel::ApplicationController
     haml :store, layout: :"../layouts/layout"
   end
 
-  # checkout
-  # post /cpanel/checkout
-  post "/checkout" do
-    params[:order].merge!({
-      out_trade_no: uuid(params.to_s),
-      pre_paid_code: uuid(params.to_s)
-    })
-    order = current_user.orders.create(params[:order])
-    JSON.parse("[%s]" % order.detail).each do |item|
-      quantity = item.delete("quantity").to_i
-      1.upto(quantity) do |i|
-        item.merge!({
-          pre_paid_code: uuid("%s-%d-%s" % [order.detail, i, item.to_s])
-        })
-        order_item = order.order_items.create(item)
-
-        puts order_item.inspect
-        puts "*"*10
-      end
-    end
-
-    redirect "/cpanel/orders"
-  end
-
   # get /cpanel/routes
   get "/routes" do
     rb_path = "%s/app/controllers/*.rb" % ENV["APP_ROOT_PATH"] 
     Dir.glob(rb_path).join("</br>")
+  end
+
+  # get /cpanel/action_logs
+  get "/action_logs" do
+    @action_logs = ActionLog.all(:order => [:created_at.desc])
+
+    haml :action_log, layout: :"../layouts/layout"
   end
 
 end

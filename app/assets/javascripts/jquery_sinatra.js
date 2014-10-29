@@ -5,16 +5,18 @@
         type: type,
         url: url,
         success: function(data) {
-          return $(dom).remove();
+          if ($.trim(dom).length) {
+            return $(dom).remove();
+          }
         },
         error: function() {
-          return alert("error:delete with ajax!");
+          return alert("error - with ajax!");
         }
       });
     },
-    deleteWithAjax: function(url, dom, alert) {
-      if (confirm(alert, "确定删除") === true) {
-        return Sinatra.selfAjax("delete", url, dom);
+    operateWithAjax: function(operate, url, dom, alert) {
+      if (confirm(alert) === true) {
+        return Sinatra.selfAjax(operate, url, dom);
       }
     }
   };

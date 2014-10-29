@@ -1,8 +1,3 @@
--#encoding: utf-8
-.row
-  .col-lg-6
-    %h1 订单列表 
-
 .row{style: "margin-top: 5px; background: white;"}
   %table.table.table-striped.table-condensed
     %thead
@@ -15,7 +10,7 @@
         %th 操作
     %tbody
       - @orders.each_with_index do |order, index|
-        - id = "order_%d" % order.id
+        - id = "trash_order_%d" % order.id
         %tr{id: id}
           %td= order.out_trade_no
           %td= order.pre_paid_code
@@ -26,5 +21,5 @@
             .btn-group
               %a.btn.btn-default.btn-sm{href: "/account/orders/%d" % order.id}
                 查看
-              %button.btn.btn-default.btn-sm{onclick: "Sinatra.operateWithAjax('delete','/account/orders/%d','#%s', '%s');" % [order.id, id, order.out_trade_no]}
-                删除
+              %button.btn.btn-default.btn-sm{onclick: "Sinatra.operateWithAjax('post','/account/trash/orders/%d/normal','#%s', '还原-%s');" % [order.id, id, order.out_trade_no]}
+                还原

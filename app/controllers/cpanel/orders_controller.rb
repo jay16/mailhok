@@ -25,6 +25,7 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
       pre_paid_code = "%s%du%do%s" % ["ppc", order.user_id, order.id, sample_3_alpha]
       order.update(:pre_paid_code => pre_paid_code)
       build_relation_with_items(order)
+      cpanel_log(order, "create", order.detail) 
     else
       puts "Failed to save order: %s" % order.errors.inspect
     end
@@ -53,6 +54,7 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
   post "/:id" do
     order = Order.first(id: params[:id])
     order.update(params[:order])
+    cpanel_log(order, "update", order.detail) 
 
     redirect "/cpanel/orders/%d" % order.id
   end
@@ -61,8 +63,8 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
   # DELETE /cpanel/orders/:id
   delete "/:id" do
     order = Order.first(id: params[:id])
-    order.order_items.destroy
-    order.destroy
+    order.soft_destroy
+    cpanel_log(order, "destroy", order.detail) 
   end
 
   private

@@ -13,8 +13,8 @@
         %th 价格
         %th 使用期限
         %th 创建/编辑者
-        %th 操作
         %th 时间
+        %th 操作
         %th 在售状态
     %tbody
       - @packages.each_with_index do |package, index|
@@ -27,12 +27,12 @@
             .label.label-primary= package.unit
           %td= "%d/%d" % [package.creator_id, package.editor_id]
           %td
+            = "%s<br>%s" % [ package.created_at.strftime("%Y-%m-%d %H:%M"), package.updated_at.strftime("%Y-%m-%d %H:%M")]
+          %td
             %a{href: "/cpanel/packages/%d/edit" % package.id}
               %span.glyphicon.glyphicon-pencil
-            %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/packages/%d/soft','#%s', '%s');" % [package.id, id, package.name]}
+            %button.btn.btn-link{onclick: "Sinatra.operateWithAjax('delete','/cpanel/packages/%d','#%s', '%s');" % [package.id, id, package.name]}
               %span.glyphicon.glyphicon-trash
-          %td
-            = "%s<br>%s" % [ package.created_at.strftime("%Y-%m-%d %H:%M"), package.updated_at.strftime("%Y-%m-%d %H:%M")]
           %td
             %form.form-inline{:action => "/cpanel/packages/%d/onsale" % package.id, :method => "post", :role => "form", "accept-charset" => "UTF-8"}
               - if package.onsale

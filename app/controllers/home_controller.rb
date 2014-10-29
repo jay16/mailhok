@@ -30,5 +30,4 @@ class HomeController < ApplicationController
   get "/register" do
     redirect "/user/register"
   end
-
 end

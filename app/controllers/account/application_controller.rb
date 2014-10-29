@@ -4,4 +4,5 @@ class Account::ApplicationController < ApplicationController
   before do
     authenticate!
   end
+
 end

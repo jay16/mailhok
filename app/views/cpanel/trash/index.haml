@@ -12,7 +12,7 @@
             %span.badge= @orders.count
       #collapseOrder.panel-collapse.collapse{:role => "tabpanel", :style => "height: 0px;"}
         .panel-body
-          dd
+          = haml :_orders_panel
     .panel.panel-default
       .panel-heading
         %h4.panel-title
@@ -39,27 +39,4 @@
             %span.badge= @packages.count
       #collapsePackage.panel-collapse.collapse{:role => "tabpanel"}
         .panel-body
-          %table.table.table-striped.table-condensed
-            %thead
-              %tr
-                %th 名称
-                %th 价格
-                %th 使用期限
-                %th 创建/编辑者
-                %th 操作
-                %th 时间
-            %tbody
-              - @packages.each_with_index do |package, index|
-                - id = "package_%d" % package.id
-                %tr{id: id}
-                  %td= package.name
-                  %td= "￥%d" % package.price
-                  %td
-                    = "%02d x" % package.num
-                    .label.label-primary= package.unit
-                  %td= "%d/%d" % [package.creator_id, package.editor_id]
-                  %td
-                    %button.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/packages/%d/hard','#%s', '%s');" % [package.id, id, package.name]}
-                      %span.glyphicon.glyphicon-trash
-                  %td
-                    = "%s<br>%s" % [ package.created_at.strftime("%Y-%m-%d %H:%M"), package.updated_at.strftime("%Y-%m-%d %H:%M")]
+          = haml :_packages_panel

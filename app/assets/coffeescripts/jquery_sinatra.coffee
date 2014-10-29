@@ -5,11 +5,11 @@ window.Sinatra=
       type: type 
       url: url
       success: (data) ->
-        $(dom).remove()
+        $(dom).remove() if $.trim(dom).length
       error: ->
-        alert("error:delete with ajax!")
+        alert("error - with ajax!")
     )
-  deleteWithAjax: (url, dom, alert) ->
-    if confirm(alert, "确定删除") is true
-      Sinatra.selfAjax("delete", url, dom)
+  operateWithAjax: (operate, url, dom, alert) ->
+    if confirm(alert) is true
+      Sinatra.selfAjax(operate, url, dom)
 

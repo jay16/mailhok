@@ -30,6 +30,19 @@ class Order
       puts "After :save doing..."
     end
 
+    # instance methods
+    def human_name
+      "订单"
+    end
+    def soft_destroy
+      update(delete_status: "soft")
+    end
+    def hard_destroy
+      update(delete_status: "hard")
+    end
+    def delete?
+      %w[soft hard].include?(delete_status)
+    end
     # class methods
     class << self
       # delete status

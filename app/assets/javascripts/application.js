@@ -105,10 +105,8 @@
           _a_val = "续期";
         }
         $(".first-level a").html(_a_val);
-        console.log(_a_val);
-        console.log(_a_href === "/account/renewal");
         if (_second_path.match(/^\/\d+$/)) {
-          _second_val = _second_val + "[明细]";
+          _second_val = _a_val + "[明细]";
         } else if (_second_path.match(/^\/new$/)) {
           _second_val = "[新建]" + _a_val;
         } else if (_second_path.match(/^\/\d+\/edit$/)) {

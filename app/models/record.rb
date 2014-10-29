@@ -15,8 +15,27 @@ class Record # 开信记录
 
     belongs_to :track
 
+    # instance methods
+    def human_name
+      "开信记录"
+    end
+    def soft_destroy
+      update(delete_status: "soft")
+    end
+    def hard_destroy
+      update(delete_status: "hard")
+    end
+    def delete?
+      %w[soft hard].include?(delete_status)
+    end
     # class methods
     class << self
+      def soft_destroy
+        update(delete_status: "soft")
+      end
+      def hard_destroy
+        update(delete_status: "hard")
+      end
       # delete status
       def normals
         all(delete_status: "normal")

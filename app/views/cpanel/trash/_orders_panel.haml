@@ -1,0 +1,24 @@
+%table.table.table-striped.table-condensed
+  %thead
+    %tr
+      %th 用户
+      %th 订单号
+      %th PrePaidCode
+      %th 商品数量 
+      %th 总价格
+      %th 操作
+  %tbody
+    - @orders.each_with_index do |order, index|
+      - id = "order_%d" % order.id
+      %tr{id: id}
+        %td= order.user.email
+        %td= order.out_trade_no
+        %td= order.pre_paid_code
+        %td= order.quantity
+        %td= "￥ %d" % order.amount
+        %td
+          .btn-group
+            %a.btn.btn-default.btn-sm{href: "/cpanel/orders/%d" % order.id}
+              查看
+            %button.btn.btn-default.btn-sm{onclick: "Sinatra.operateWithAjax('post','/cpanel/trash/orders/%d/normal','#%s', '还原[%s]');" % [order.id, id, order.out_trade_no]}
+              还原

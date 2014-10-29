@@ -24,6 +24,7 @@ class Account::OrdersController < Account::ApplicationController
       pre_paid_code = "%s%du%do%s" % ["ppc", order.user_id, order.id, sample_3_alpha]
       order.update(:pre_paid_code => pre_paid_code)
       build_relation_with_items(order)
+      account_log(order, "create", order.detail)
     else
       puts "Failed to save order: %s" % order.errors.inspect
     end
@@ -39,29 +40,12 @@ class Account::OrdersController < Account::ApplicationController
     haml :show, layout: :"../layouts/layout"
   end
 
-  ## edit
-  ## GET /orders/:id/edit
-  #get "/:id/edit" do
-  #  @order = current_user.orders.first(id: params[:id])
-
-  #  haml :edit, layout: :"../layouts/layout"
-  #end
-
-  ## update
-  ## POST /orders/:id
-  #post "/:id" do
-  #  order = current_user.orders.first(id: params[:id])
-  #  order.update(params[:order])
-
-  #  redirect "/cpanel/orders/%d" % order.id
-  #end
-
   # delete
   # DELETE /cpanel/orders/:id
   delete "/:id" do
     order = current_user.orders.first(id: params[:id])
-    order.order_items.destroy
-    order.destroy
+    order.soft_destroy
+    account_log(order, "destroy")
   end
 
   private

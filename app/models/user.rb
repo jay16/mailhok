@@ -21,6 +21,7 @@ class User
     property :updated_on, Date
 
     has n, :orders
+    has n, :action_logs
     has n, :tracks
     has n, :records, :through => :tracks
 
@@ -28,6 +29,19 @@ class User
       Settings.admins.split(/;/).include?(self.email)
     end
 
+    # instance methods
+    def human_name
+      "用户"
+    end
+    def soft_destroy
+      update(delete_status: "soft")
+    end
+    def hard_destroy
+      update(delete_status: "hard")
+    end
+    def delete?
+      %w[soft hard].include?(delete_status)
+    end
     # class methods
     class << self
       # delete status

@@ -1,5 +1,24 @@
-%h1= @package.name
-.row
-  = "￥%d" % [@package.price]
-.row
-  = "%d x %s" % [@package.num, @package.unit]
+.page-header
+  .row
+    .col-lg-6
+      %h3 套餐明细
+
+%dl.dl-horizontal
+  %dt 创建者
+  %dd= @package.creator.email
+  - if @package.delete?
+    %dt 删除状态
+    %dd
+      .label.label-danger= @package.delete_status
+  %dt 套餐名称
+  %dd= @package.name
+  %dt 套餐价格
+  %dd= "￥%.1f" % @package.price
+  %dt 延期时限
+  %dd
+    = "%d x" % @package.num
+    .label.label-primary= @package.unit
+  %dt 创建时间
+  %dd= @package.created_at.strftime("%Y-%m-%d %H:%M")
+  %dt 更新时间
+  %dd= @package.updated_at.strftime("%Y-%m-%d %H:%M")

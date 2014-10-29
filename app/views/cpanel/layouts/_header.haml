@@ -8,26 +8,29 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to "MailHok", "/account", class: "navbar-brand"
+      = link_to "控制台", "/cpanel", class: "navbar-brand"
+    / Collect the nav links, forms, and other content for toggling
     .collapse.navbar-collapse{role: "navigation", id:"bs-example-navbar-collapse-1"}
       %ul.nav.navbar-nav
-        %li= link_to "首页", "/account"
-        %li= link_to "追踪", "/account/tracks"
-        %li= link_to "开信", "/account/records"
-        %li= link_to "我的订单", "/account/orders"
+        %li.active= link_to "概况", "/cpanel"
+        %li= link_to "用户", "/cpanel/users"
+        %li= link_to "套餐", "/cpanel/packages"
+        %li= link_to "追踪", "/cpanel/tracks"
+        %li= link_to "开信", "/cpanel/records"
+        %li= link_to "订单", "/cpanel/orders"
+        %li= link_to "Log", "/cpanel/action_logs"
 
-      - is_admin = current_user and current_user.admin?
       %input#navbar_right_lis{type: "hidden", value: 3}/
       %ul.nav.navbar-nav.navbar-right
         %li
-          %a{href: "/account/store"}
+          %a{href: "/account"}
+            %i.glyphicon.glyphicon-home
+        %li
+          %a{href: "/cpanel/store"}
             %i.glyphicon.glyphicon-shopping-cart
         %li
-          %a{href: "/account/renewal"}
-            %i.glyphicon.glyphicon-transfer
-        %li
-          %a{href: "/account/trash"}
-            %i.glyphicon.glyphicon-folder-close
+          %a{href: "/cpanel/trash"}
+            %i.glyphicon.glyphicon-trash
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             设置
@@ -37,26 +40,23 @@
               %a
                 %i.glyphicon.glyphicon-user
                 账户设置
-            %li
-              %a{href: "/account/renewal"}
-                %i.glyphicon.glyphicon-transfer
-                续期
             %li.divider
             %li
-              %a{href: "/account/store"}
+              %a{:href => "/account"}
+                %i.glyphicon.glyphicon-home
+                主页
+            %li
+              %a{href: "/cpanel/store"}
                 %i.glyphicon.glyphicon-shopping-cart
                 商店
             %li
-              %a{href: "/account/trash"}
-                %i.glyphicon.glyphicon-folder-close
+              %a{href: "/cpanel/trash"}
+                %i.glyphicon.glyphicon-trash
                 回收站
-            %li
-              %a{:href => "/cpanel"}
-                %i.glyphicon.glyphicon-home
-                后台管理
             %li.divider
             %li
               %a{:href => "/user/logout"}
                 %i.glyphicon.glyphicon-log-out
                 退出
+
 = haml :"../../shared/_breadcrumb"

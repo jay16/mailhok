@@ -19,10 +19,16 @@
     %dd= @order.quantity
     %dt 商品合计
     %dd= "￥%.1f" % @order.amount
+    %dt 使用状态
+    %dd
+      - if @order.status
+        .label.label-default 已使用
+      - else
+        .label.label-success 未使用
     %dt 创建时间
     %dd= @order.created_at.strftime("%Y-%m-%d %H:%M")
-    %dt 使用状态
-    %dd= "%s使用" % (@order.status ? "已" : "未")
+    %dt 更新时间
+    %dd= @order.updated_at.strftime("%Y-%m-%d %H:%M")
 
 %h3 商品明细
 .row
@@ -47,6 +53,10 @@
             = item.pre_paid_code
             - i_status = (regexp_ppc_order_item =~ item.pre_paid_code ? "ok" : "remove")
             %i.glyphicon{class: "glyphicon-%s" % i_status}
-          %td= "%s使用" % (item.status ? "已" : "未")
+          %td
+            - if item.status
+              .label.label-default 已使用
+            - else
+              .label.label-success 未使用
           %td= item.created_at.strftime("%Y-%m-%d %H:%M")
 

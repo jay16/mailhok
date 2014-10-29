@@ -52,6 +52,31 @@ class ApplicationController < Sinatra::Base
     @regexp_ppc_order_item ||= Regexp.new(Settings.regexp.order_item)
   end
   ##### =============== #####
+  # action log
+  def base_log(panel, model, action, detail)
+    _action = {
+      "create" => "创建",
+      "update" => "更新",
+      "destroy" => "删除",
+      "trash#hard"   => "从回收站删除",
+      "trash#normal" => "从回收站还原",
+      "trash#clear"  => "清空回收站"
+    }.fetch(action, action)
+    ActionLog.create({
+      :panel      => panel,
+      :user_id    => current_user.id,
+      :model_name => model.class.name,
+      :model_id   => model.id,
+      :action     => "%s %s" % [_action, model.human_name],
+      :detail     => detail
+    })
+  end
+  def account_log(model, action, detail="")
+    base_log("account", model, action, detail)
+  end
+  def cpanel_log(model, action, detail="")
+    base_log("cpanel", model, action, detail)
+  end
 
   def current_user
     @current_user ||= User.first(email: request.cookies["cookie_user_login_state"])
