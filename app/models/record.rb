@@ -5,16 +5,10 @@ class Record # 开信记录
     extend  Utils::DataMapper::Model
     include Utils::ActionLogger
 
-    property :id         ,Serial 
-    property :track_id   ,String , :required => true, :unique => true
-    property :ip         ,String
-    property :browser    ,String  
+    property :id         , Serial 
 
-    belongs_to :track
+    belongs_to :track, :required => false
 
-    after :create do |obj|
-      action_logger(obj, "create", obj.to_params)
-    end
     # instance methods
     def human_name
       "开信记录"

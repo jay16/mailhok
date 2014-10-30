@@ -11,6 +11,7 @@ class ActionLog
     property :model_name, String 
     property :model_id  , Integer
     property :action    , String
+    property :human     , String
     property :detail    , Text
 
     belongs_to :user, :required => false

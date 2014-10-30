@@ -7,15 +7,14 @@ class Track # 用户创建追踪记录
     include Utils::ActionLogger
 
     property :id       , Serial 
-    property :user_id  , Integer
-    property :record_id, Integer
     property :subject  , String #, :required => true, :unique => true
-    property :email    , String
+    property :to       , String # to
+    property :tos      , Text   # when to out limit
     property :desc     , Text
-    property :uid      , String
-    property :type     , String
+    property :mid      , String# , :unique => true# for api query, 
+    property :type     , String , :default => "web"
 
-    belongs_to :user
+    belongs_to :user, :required => false
     has n, :records
 
     after :create do |obj|

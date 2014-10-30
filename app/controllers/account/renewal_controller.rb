@@ -39,17 +39,42 @@ class Account::RenewalController < Account::ApplicationController
 
   # POST /account/renewal
   post "/" do
-    info = current_user.expired_at.strftime("%Y-%m-%d %H:%M")
-    if params[:klass] == "order"
-      order = Order.first(pre_paid_code: params[:ppc])
+    klass, ppc = params[:klass], params[:ppc]
+    _before = current_user.expired_at.strftime("%Y-%m-%d %H:%M")
+    obj = nil
+    case klass 
+    when "order"
+      order = Order.first(pre_paid_code: ppc)
       order.order_items.each do |order_item|
         next if order_item.status
         current_user.update(expired_at: current_user.expired_at + order_item.package_num * 30)
         order_item.update(status: true)
       end
       order.update(status: true)
-      flash[:success] = "成功续期: %s => %s" % [info, current_user.expired_at.strftime("%Y-%m-%d %H:%M")]
+      obj = order
+    when "order_item"
+      order_item = OrderItem.first(pre_paid_code: ppc)
+      if not order_item.status
+        current_user.update(expired_at: current_user.expired_at + order_item.package_num * 30)
+        order_item.update(status: true)
+        # 修改所属order状态
+        order = order_item.order
+        if not order.status
+          if order.order_items.map(&:status).uniq == [true]
+            order.update(status: true)
+          end
+        end
+      end
+      obj = order_item
+    end
+    if obj and obj.valid?
+      flash[:success] = (info = "成功续期: %s => %s" % [_before, current_user.expired_at.strftime("%Y-%m-%d %H:%M")])
+      account_logger(order_item, "renewal#success", info)
       redirect "/account"
+    else
+      flash[:warning] = (info = "续期失败，请联系管理员!")
+      account_logger(order_item, "renewal#failure", info)
+      redirect "/account/renewal/%s/%s" % [ppc, klass]
     end
   end
 end

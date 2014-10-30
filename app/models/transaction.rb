@@ -43,6 +43,4 @@ class Transaction
     property :receive_email, String
     property :focus_state  , String
     property :status       , Boolean, :required => false
-    property :ip           , String # remote ip
-    property :browser      , String 
 end

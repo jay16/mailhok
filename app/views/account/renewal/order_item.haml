@@ -1,0 +1,59 @@
+.page-header
+  .row
+    .col-lg-6
+      %h3 订单明细
+    .col-lg-6
+      %a.btn.btn-link.right{href: "/cpanel/orders"}
+        %span.glyphicon.glyphicon-list
+
+.row
+  %dl.dl-horizontal
+    - order = @order_item.order
+    %dt 订单号
+    %dd= order.out_trade_no
+    %dt PrePaidCode
+    %dd
+      = ppc = order.pre_paid_code
+      - i_status = (regexp_ppc_order =~ ppc ? "ok" : "remove")
+      %i.glyphicon{class: "glyphicon-%s" % i_status}
+    %dt 商品数量
+    %dd= order.quantity
+    %dt 商品合计
+    %dd= "￥%.1f" % order.amount
+    %dt 使用状态
+    %dd= "%s使用" % (order.status ? "已" : "未")
+    %dt 创建时间
+    %dd= order.created_at.strftime("%Y-%m-%d %H:%M")
+
+%h3 商品列表
+.row
+  %table.table.table-condensed.table-striped
+    %thead
+      %tr
+        %th 商品名称
+        %th 商品价格
+        %th 续期
+        %th PrePaidCode
+        %th 使用状态
+    %tbody
+      %tr
+        %td= @order_item.package_name
+        %td= @order_item.package_price
+        %td= "%d x %s" % [@order_item.package_num, @order_item.package_unit]
+        %td
+          = ppc = @order_item.pre_paid_code
+          - i_status = (regexp_ppc_order_item =~ ppc ? "ok" : "remove")
+          %i.glyphicon{class: "glyphicon-%s" % i_status}
+        %td= "%s使用" % (@order_item.status ? "已" : "未")
+      %tr.success
+        %td
+        %td
+          - renewal = @order_item.package_num
+          %td{colspan: "2", style: "vertical-align:middle;"}
+            = "共延期%d个月: %s => %s" % [renewal, current_user.expired_at.strftime("%Y-%m-%d %H:%M"), (current_user.expired_at + renewal * 30).strftime("%Y-%m-%d %H:%M")]
+        %td
+          - if not @order_item.status
+            %form.form-inline.col-sm-12{"accept-charset" => "UTF-8", action: "/account/renewal", method: "post", role: "form"}
+              %input.hidden{name: "klass", type: "hidden", value: "order_item"}/
+              %input.hidden{name: "ppc", type: "hidden", value: "%s" % @order_item.pre_paid_code}/
+              %input.btn.btn-default.btn-success{name: "commit", type: "submit", value: "提交"}

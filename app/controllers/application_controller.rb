@@ -39,7 +39,7 @@ class ApplicationController < Sinatra::Base
 
   # global function
   def uuid(str)
-    str += Time.to_s + rand(10000).to_s
+    str += Time.now.to_f.to_s
     Digest::MD5.hexdigest(str)
   end
   def sample_3_alpha

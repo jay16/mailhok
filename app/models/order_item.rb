@@ -16,4 +16,10 @@ class OrderItem
     property :status ,       Boolean, :default => false # whether transaction over
 
     belongs_to :order, :required => false
+
+    # instance methods
+    # 修改human_name时，记得修改/lib/utils/action_logger.rb
+    def human_name
+      "商品"
+    end
 end

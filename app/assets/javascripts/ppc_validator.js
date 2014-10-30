@@ -24,7 +24,7 @@
             },
             regexp: {
               regexp: /^ppc\d+u\d+o(\d+i)?[a-zA-Z]{3}$/,
-              message: "PrePaidCode不是无效."
+              message: "PrePaidCode无效."
             }
           }
         },

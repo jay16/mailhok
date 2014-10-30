@@ -24,7 +24,7 @@ class Cpanel::TrashController< Cpanel::ApplicationController
         obj = Object.const_get(params[:model].chop.capitalize)
           .first(id: params[:id])
         obj.update(delete_status: params[:status])
-        cpanel_log(obj, "trash#%s" % obj.delete_status)
+        cpanel_logger(obj, "trash#%s" % obj.delete_status)
     else
       puts "Dirty Params: %s" % params.inspect
     end

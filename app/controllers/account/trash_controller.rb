@@ -36,6 +36,6 @@ class Account::TrashController< Account::ApplicationController
     Order.softs.each(&:hard_destroy_with_logger)
     Track.softs.each(&:hard_destroy_with_logger)
     Record.softs.each(&:hard_destroy_with_logger)
-    account_log(current_user, "trash#clear")
+    account_logger(current_user, "trash#clear")
   end
 end

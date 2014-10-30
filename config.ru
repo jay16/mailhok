@@ -3,6 +3,7 @@ require "./config/boot.rb"
 
 # public
 map("/")                { run HomeController }
+map("/respond")         { run RespondController }
 map("/transactions")    { run TransactionsController }
 map("/user")            { run UserController }
 map("/api/v1")          { run API::Version1 }

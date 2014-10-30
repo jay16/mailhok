@@ -6,33 +6,42 @@ module Utils
     end
 
     module InstanceMethods
-      def base_log(panel, model, action, detail)
+      def base_logger(panel, model, action, detail)
         _action = {
-          "create" => "创建",
-          "update" => "更新",
-          "destroy" => "删除",
-          "trash#soft"   => "删除",
-          "trash#hard"   => "从回收站删除",
-          "trash#normal" => "从回收站还原",
-          "trash#clear"  => "清空回收站"
+          "create"          => "创建",
+          "update"          => "更新",
+          "destroy"         => "删除",
+          "trash#soft"      => "删除",
+          "trash#hard"      => "从回收站删除",
+          "trash#normal"    => "从回收站还原",
+          "trash#clear"     => "清空回收站",
+          "renewal#success" => "续期成功",
+          "renewal#failure" => "续期失败"
         }.fetch(action, action)
+
+        user = case model.human_name
+         when "用户" then model
+         when "商品" then model.order.user
+         else model.user
+         end
         ActionLog.create({
           :panel      => panel,
-          :user_id    => (model.human_name == "用户" ? model : model.user).id,
+          :user_id    => user.id,
           :model_name => model.class.name,
           :model_id   => model.id,
-          :action     => "%s %s" % [_action, model.human_name],
+          :action     => action,
+          :human      => "%s %s" % [_action, model.human_name],
           :detail     => detail
         })
       end
       def action_logger(model, action, detail)
-        base_log("model", model, action, detail)
+        base_logger("model", model, action, detail)
       end
-      def account_log(model, action, detail="")
-        base_log("account", model, action, detail)
+      def account_logger(model, action, detail="")
+        base_logger("account", model, action, detail)
       end
-      def cpanel_log(model, action, detail="")
-        base_log("cpanel", model, action, detail)
+      def cpanel_logger(model, action, detail="")
+        base_logger("cpanel", model, action, detail)
       end
     end
   end
