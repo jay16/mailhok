@@ -1,7 +1,9 @@
 #encoding: utf-8
-require "dm-validations"
+require "model-base"
 class ActionLog
     include DataMapper::Resource
+    include Utils::DataMapper::Model
+    extend  Utils::DataMapper::Model
 
     property :id        , Serial 
     property :panel     , String   , :required => true
@@ -10,10 +12,6 @@ class ActionLog
     property :model_id  , Integer
     property :action    , String
     property :detail    , Text
-    property :created_at, DateTime
-    property :created_on, Date
-    property :updated_at, DateTime
-    property :updated_on, Date
 
     belongs_to :user, :required => false
 

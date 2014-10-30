@@ -5,7 +5,7 @@ class Cpanel::UsersController < Cpanel::ApplicationController
   # list
   # GET /cpanel/users
   get "/" do
-    @users = User.all
+    @users = User.normals
 
     haml :index, layout: :"../layouts/layout"
   end

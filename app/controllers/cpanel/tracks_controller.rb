@@ -5,7 +5,7 @@ class Cpanel::TracksController < Cpanel::ApplicationController
   # list
   # GET /cpanel/tracks
   get "/" do
-    @tracks = current_user.tracks.normals
+    @tracks = Track.normals
 
     haml :index, layout: :"../layouts/layout"
   end
@@ -18,7 +18,7 @@ class Cpanel::TracksController < Cpanel::ApplicationController
       out_trade_no:  uuid(params.to_s),
       pre_paid_code: Time.now.to_f.to_s
     })
-    track = current_user.tracks.new(track_params)
+    track = Track.new(track_params)
     if track.save
       status = "/%d" % track.id
       pre_paid_code = "%s%du%do%s" % ["ppc", track.user_id, track.id, sample_3_alpha]

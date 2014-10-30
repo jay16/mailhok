@@ -1,0 +1,52 @@
+.page-header
+  .row
+    .col-lg-6
+      %h3 订单明细
+    .col-lg-6{style:"height:56px;padding-top:25px;"}
+      %a.btn.btn-link.right{href: "/cpanel/orders"}
+        %span.glyphicon.glyphicon-list
+
+.row
+  %dl.dl-horizontal
+    %dt 订单号
+    %dd= @order.out_trade_no
+    %dt PrePaidCode
+    %dd
+      = @order.pre_paid_code
+      - i_status = (regexp_ppc_order =~ @order.pre_paid_code ? "ok" : "remove")
+      %i.glyphicon{class: "glyphicon-%s" % i_status}
+    %dt 商品数量
+    %dd= @order.quantity
+    %dt 商品合计
+    %dd= "￥%.1f" % @order.amount
+    %dt 创建时间
+    %dd= @order.created_at.strftime("%Y-%m-%d %H:%M")
+    %dt 使用状态
+    %dd= "%s使用" % (@order.status ? "已" : "未")
+
+%h3 商品明细
+.row
+  %table.table.table-condensed.table-striped
+    %thead
+      %tr
+        %th 序号
+        %th 商品名称
+        %th 商品价格
+        %th 续期
+        %th PrePaidCode
+        %th 使用状态
+        %th 创建时间
+    %tbody
+      - @order.order_items.each_with_index do |item, index|
+        %tr
+          %td= index
+          %td= item.package_name
+          %td= item.package_price
+          %td= "%d x %s" % [item.package_num, item.package_unit]
+          %td
+            = item.pre_paid_code
+            - i_status = (regexp_ppc_order_item =~ item.pre_paid_code ? "ok" : "remove")
+            %i.glyphicon{class: "glyphicon-%s" % i_status}
+          %td= "%s使用" % (item.status ? "已" : "未")
+          %td= item.created_at.strftime("%Y-%m-%d %H:%M")
+

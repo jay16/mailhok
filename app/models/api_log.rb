@@ -1,6 +1,9 @@
 ﻿#encoding: utf-8
+require "model-base"
 class ApiLog
     include DataMapper::Resource
+    include Utils::DataMapper::Model
+    extend  Utils::DataMapper::Model
 
     property :id, Serial 
     property :image, String # image
@@ -15,9 +18,4 @@ class ApiLog
     property :unit3, String # weight unit
     property :desc, String  # describtion
     property :onsale, Boolean,  :default => false # whether onsale
-    property :ip, String      # remote ip that last modified
-    property :browser, String # browser that last modified with
-
-    property :created_at, DateTime, :default => DateTime.now
-    property :updated_at, DateTime, :default => DateTime.now
 end

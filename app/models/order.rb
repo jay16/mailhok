@@ -1,24 +1,19 @@
 #encoding: utf-8
-require "dm-validations"
+require "model-base"
 class Order
     include DataMapper::Resource
+    include Utils::DataMapper::Model
+    extend  Utils::DataMapper::Model
 
     property :id,            Serial 
     property :out_trade_no , String #, :required => true, :unique => true # uniq id relate to alipay
     property :pre_paid_code, String #, :required => true, :unique => true 
     property :exp_id,        Integer # who use it
-    property :exp_status, Boolean, :default => false # whether used
+    property :exp_status,    Boolean, :default => false # whether used
     property :quantity, Integer#, :required => true # all product number
     property :amount,   Float  #, :required => true # all products price total
     property :detail,   Text#, :required => true # shop cart list 
     property :status,   Boolean, :default => false # whether transaction over
-    property :ip,       String  # remote ip
-    property :browser,  String 
-    property :delete_status, String, :default => "normal"
-    property :created_at, DateTime
-    property :created_on, Date
-    property :updated_at, DateTime
-    property :updated_on, Date
 
     belongs_to :user, :required => false
     has n, :order_items
@@ -33,15 +28,6 @@ class Order
     # instance methods
     def human_name
       "订单"
-    end
-    def soft_destroy
-      update(delete_status: "soft")
-    end
-    def hard_destroy
-      update(delete_status: "hard")
-    end
-    def delete?
-      %w[soft hard].include?(delete_status)
     end
     # class methods
     class << self

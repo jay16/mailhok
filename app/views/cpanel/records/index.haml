@@ -1,0 +1,29 @@
+-#encoding: utf-8
+.row
+  .col-lg-6
+    %h1 record列表 
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 订单号
+        %th PrePaidCode
+        %th 商品数量 
+        %th 总价格
+        %th 明细 
+        %th 操作
+    %tbody
+      - @records.each_with_index do |record, index|
+        - id = "record_%d" % record.id
+        %tr{id: id}
+          %td
+          %td
+          %td
+          %td
+          %td
+          %td
+            %a{href: "/account/records/%d" % record.id}
+              %span.glyphicon.glyphicon-eye-open
+            %button.hidden.btn.btn-link{onclick: "Sinatra.deleteWithAjax('/cpanel/records/%d','#%s');" % [record.id, id]}
+              %span.glyphicon.glyphicon-trash

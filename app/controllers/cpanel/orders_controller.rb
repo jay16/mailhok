@@ -6,7 +6,7 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
   # list
   # GET /cpanel/orders
   get "/" do
-    @orders = Order.all
+    @orders = Order.normals
 
     haml :index, layout: :"../layouts/layout"
   end

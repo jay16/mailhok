@@ -5,7 +5,7 @@ class Cpanel::RecordsController < Cpanel::ApplicationController
   # list
   # GET /cpanel/records
   get "/" do
-    @records = Record.all
+    @records = Record.normals
 
     haml :index, layout: :"../layouts/layout"
   end

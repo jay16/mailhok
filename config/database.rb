@@ -12,7 +12,7 @@ configure do
   DataMapper::setup(:default, "sqlite3://%s" % db_path)
 
   # 加载所有models
-  require "lib/utils/data_mapper.rb"
+  require "lib/utils/data_mapper/model.rb"
   recursion_require("app/models", /\.rb$/, root_path)
 
   # 自动迁移数据库

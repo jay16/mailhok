@@ -1,8 +1,9 @@
 #encoding: utf-8
-require "dm-validations"
+require "model-base"
 class OrderItem
     include DataMapper::Resource
-    #include Utils::DataMapper
+    include Utils::DataMapper::Model
+    extend  Utils::DataMapper::Model
 
     property :id           , Serial 
     property :pre_paid_code, String , :unique => true 
@@ -13,10 +14,6 @@ class OrderItem
     property :package_unit , String
     property :package_price, Float  
     property :status ,       Boolean, :default => false # whether transaction over
-    property :created_at,    DateTime
-    property :created_on,    Date
-    property :updated_at,    DateTime
-    property :updated_on,    Date
 
     belongs_to :order, :required => false
 end

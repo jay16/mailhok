@@ -1,5 +1,9 @@
-﻿class Transaction
+﻿#encoding:utf-8
+require "model-base"
+class Transaction
     include DataMapper::Resource
+    include Utils::DataMapper::Model
+    extend  Utils::DataMapper::Model
 
     property :id             , Serial 
     property :gmt_send_goods , String
@@ -41,8 +45,4 @@
     property :status       , Boolean, :required => false
     property :ip           , String # remote ip
     property :browser      , String 
-    property :created_at, DateTime
-    property :created_on, Date
-    property :updated_at, DateTime
-    property :updated_on, Date
 end
