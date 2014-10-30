@@ -24,8 +24,7 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # POST /cpanel/packages
   post "/" do
     package_params = params[:package].merge({ :creator_id => current_user.id })
-    package = Package.create(package_params)
-    cpanel_log(package, "create")
+    Package.create(package_params)
 
     redirect "/cpanel/packages"
   end
@@ -51,8 +50,7 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   post "/:id" do
     package = Package.first(id: params[:id])
     package_params = params[:package].merge({ :editor_id => current_user.id })
-    package.update(package_params)
-    cpanel_log(package, "update")
+    package.update_with_logger(package_params)
 
     redirect "/cpanel/packages"#/%d" % package.id
   end
@@ -61,8 +59,7 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # POST /cpanel/packages/:id/onsale
   post "/:id/onsale" do
     package = Package.first(id: params[:id])
-    package.update(:onsale => params[:onsale])
-    cpanel_log(package, "update", ":onsale => %s" % package.onsale)
+    package.update_with_logger(:onsale => params[:onsale])
 
     redirect "/cpanel/packages"
   end
@@ -71,8 +68,6 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # DELETE /cpanel/packages/:id
   delete "/:id" do
     package = Package.first(id: params[:id])
-    package.soft_destroy
-    cpanel_log(package, "destroy")
-
+    package.soft_destroy_with_logger
   end
 end

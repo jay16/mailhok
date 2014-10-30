@@ -4,6 +4,7 @@ class User
     include DataMapper::Resource
     include Utils::DataMapper::Model
     extend  Utils::DataMapper::Model
+    include Utils::ActionLogger
 
     property :id        , Serial 
     property :email     , String  , :required => true, :unique => true
@@ -26,6 +27,9 @@ class User
       @is_admin ||= Settings.admins.split(/;/).include?(self.email)
     end
 
+    after :create do |obj|
+      action_logger(obj, "create", obj.to_params)
+    end
     # instance methods
     def human_name
       "用户"

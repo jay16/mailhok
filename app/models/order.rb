@@ -4,6 +4,7 @@ class Order
     include DataMapper::Resource
     include Utils::DataMapper::Model
     extend  Utils::DataMapper::Model
+    include Utils::ActionLogger
 
     property :id,            Serial 
     property :out_trade_no , String #, :required => true, :unique => true # uniq id relate to alipay
@@ -18,11 +19,8 @@ class Order
     belongs_to :user, :required => false
     has n, :order_items
 
-    after :create do |order|
-      puts "After :create doing..."
-    end
-    after :save do |order|
-      puts "After :save doing..."
+    after :create do |obj|
+      action_logger(obj, "create", obj.to_params)
     end
 
     # instance methods

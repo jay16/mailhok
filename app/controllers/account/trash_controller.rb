@@ -24,8 +24,7 @@ class Account::TrashController< Account::ApplicationController
     if _model and _statu
       obj = current_user.send(params[:model])
         .first(id: params[:id])
-      obj.update(delete_status: params[:status])
-      account_log(obj, "trash#%s" % obj.delete_status)
+      obj.update_with_logger(delete_status: params[:status])
     else
       puts "Dirty Params: %s" % params.inspect
     end
@@ -34,9 +33,9 @@ class Account::TrashController< Account::ApplicationController
   # soft => hard
   # DELETE /account/trash/clear"
   delete "/clear" do
-    Order.softs.each(&:hard_destroy)
-    Track.softs.each(&:hard_destroy)
-    Record.softs.each(&:hard_destroy)
-    account_log(obj, "trash#clear")
+    Order.softs.each(&:hard_destroy_with_logger)
+    Track.softs.each(&:hard_destroy_with_logger)
+    Record.softs.each(&:hard_destroy_with_logger)
+    account_log(current_user, "trash#clear")
   end
 end

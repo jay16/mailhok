@@ -32,4 +32,10 @@ class Account::UserController< Account::ApplicationController
 
     haml :"../../home/store", layout: :"../layouts/layout"
   end
+
+  get "/action_logs" do
+    @action_logs = current_user.action_logs(:order => [:created_at.desc])
+
+    haml :action_log, layout: :"../layouts/layout"
+  end
 end

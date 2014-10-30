@@ -18,12 +18,46 @@ module Utils
       end
 
       module InstanceMethods
+        def diff(new, old)
+          diff_params = {}
+          old.each_pair do |key, _old|
+            _new = new.fetch(key)
+            next if ["updated_at"].include?(key)
+            next if _new == _old
+            puts "%s - %s: %s => %s" % [timestamp, key, _old, _new]
+            diff_params[key] = { "new" => _new, "old" => _old }
+          end
+          return diff_params
+        end
+        def timestamp
+          Time.now.strftime("%Y/%m/%d %H:%M:%S")
+        end
+        def _update_with_logger(&block)
+          old = to_params
+          yield block
+          new = to_params
+          _diff = diff(new, old)
+          if _diff.has_key?("delete_status")
+            _action = "trash#%s" % delete_status
+          end
+          action_logger(self, _action || "update", _diff.to_s)
+        end
         def soft_destroy
           update(delete_status: "soft")
+        end
+        def soft_destroy_with_logger
+          _update_with_logger { soft_destroy }
         end
         def hard_destroy
           update(delete_status: "hard")
         end
+        def hard_destroy_with_logger
+          _update_with_logger { hard_destroy }
+        end
+        def update_with_logger(params)
+          _update_with_loger { update(params) }
+        end
+
         def delete?
           %w[soft hard].include?(delete_status)
         end

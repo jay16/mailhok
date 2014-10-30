@@ -15,6 +15,7 @@
         %li= link_to "追踪", "/account/tracks"
         %li= link_to "开信", "/account/records"
         %li= link_to "我的订单", "/account/orders"
+        %li= link_to "logs", "/account/action_logs"
 
       - is_admin = current_user and current_user.admin?
       %input#navbar_right_lis{type: "hidden", value: 3}/

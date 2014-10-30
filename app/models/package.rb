@@ -4,6 +4,7 @@ class Package
     include DataMapper::Resource
     include Utils::DataMapper::Model
     extend  Utils::DataMapper::Model
+    include Utils::ActionLogger
 
     # 坑:
     # 1. creator_id/editor_id不可以设置为必填项,因为它们不是同一阶段设置
@@ -18,12 +19,18 @@ class Package
     property :creator_id, Integer, :default => -1
     property :editor_id , Integer, :default => -1
 
+    after :create do |obj|
+      action_logger(obj, "create", obj.to_params)
+    end
     # instance methods
     def human_name
       "套餐"
     end
+    def user
+      @current_user ||= User.first(id: creator_id)
+    end
     def creator
-      User.first(id: creator_id)
+      @current_user ||= User.first(id: creator_id)
     end
     # class methods
     class << self

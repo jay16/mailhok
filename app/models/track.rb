@@ -4,6 +4,7 @@ class Track # 用户创建追踪记录
     include DataMapper::Resource
     include Utils::DataMapper::Model
     extend  Utils::DataMapper::Model
+    include Utils::ActionLogger
 
     property :id       , Serial 
     property :user_id  , Integer
@@ -17,6 +18,9 @@ class Track # 用户创建追踪记录
     belongs_to :user
     has n, :records
 
+    after :create do |obj|
+      action_logger(obj, "create", obj.to_params)
+    end
     # instance methods
     def human_name
       "追踪"

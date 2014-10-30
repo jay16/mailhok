@@ -25,6 +25,8 @@ class Cpanel::UsersController < Cpanel::ApplicationController
   # create
   # POST /cpanel/users
   post "/" do
+    @user = User.first(:id => params[:id])
+    @user.update_with_logger(params[:user])
   end
 
   # delete

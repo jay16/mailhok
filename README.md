@@ -76,3 +76,7 @@ bundle exec thin start
 1. 2014/10/26
 
   1. 调整功能结构，管理权限在/cpanel
+
+2. 2014/10/30
+  
+  1. DataMapper通用代码，提取放在/lib/utils/data_mapper/model.rb

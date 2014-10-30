@@ -41,6 +41,7 @@ $:.unshift("%s/lib/tasks" % root_path)
   $:.unshift("%s/app/%s" % [root_path, path])
 end
 
+require "lib/utils/action_logger.rb"
 require "lib/utils/boot.rb"
 include Utils::Boot
 # config文夹下为配置信息优先加载
@@ -48,8 +49,10 @@ include Utils::Boot
 # asset-hanel嵌入在application_controller
 require "asset-handler"
 require "form-helpers"
+# base on model ActionLog
 
 # helper will include into controller
 # helper load before controller
 recursion_require("app/helpers", /_helper\.rb$/, root_path)
 recursion_require("app/controllers", /_controller\.rb$/, root_path, [/^application_/])
+

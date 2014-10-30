@@ -15,13 +15,6 @@ class ActionLog
 
     belongs_to :user, :required => false
 
-    after :create do |order|
-      puts "After :create doing..."
-    end
-    after :save do |order|
-      puts "After :save doing..."
-    end
-
     # instance methods
     def account?
       panel == "account"
