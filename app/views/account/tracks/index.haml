@@ -1,25 +1,29 @@
 -#encoding: utf-8
 .row
   .col-lg-6
-    %h1 Track管理
-  .col-lg-6{style: "margin-top:25px;"}
-    %a.btn.btn-default.right{href: "/account/tracks/new"} 新建
+    %h1 开信记录
 
 .row{style: "margin-top: 5px; background: white;"}
   %table.table.table-striped.table-condensed
     %thead
       %tr
-        %th 序号 
-        %th 标题 
-        %th 收件人 
-        %th 开信 
-        %th 链接
+        %th 订单号
+        %th PrePaidCode
+        %th 商品数量 
+        %th 总价格
+        %th 明细 
+        %th 操作
     %tbody
       - @tracks.each_with_index do |track, index|
         - id = "track_%d" % track.id
         %tr{id: id}
-          %td= index + 1
-          %td= track.subject
-          %td= track.to
-          %td= track.records.count
-          %th= track.mid
+          %td= track.out_trade_no
+          %td= track.pre_paid_code
+          %td= track.quantity
+          %td= track.amount
+          %td= track.track_items.count
+          %td
+            %a{href: "/account/tracks/%d" % track.id}
+              %span.glyphicon.glyphicon-eye-open
+            %button.hidden.btn.btn-link{onclick: "Sinatra.operateWithAjax('delete','/account/tracks/%d','#%s');" % [track.id, id]}
+              %span.glyphicon.glyphicon-trash

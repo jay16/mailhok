@@ -1,27 +1,17 @@
 ﻿#encoding: utf-8
 require "model-base"
-class Track # 用户创建追踪记录
+class Track # 开信记录
     include DataMapper::Resource
     include Utils::DataMapper::Model
     extend  Utils::DataMapper::Model
-    include Utils::ActionLogger
+    #include Utils::ActionLogger
 
-    property :id       , Serial 
-    property :subject  , String #, :required => true, :unique => true
-    property :to       , String # to
-    property :tos      , Text   # when to out limit
-    property :desc     , Text
-    property :mid      , String# , :unique => true# for api query, 
-    property :type     , String , :default => "web"
+    property :id, Serial
 
-    belongs_to :user, :required => false
-    has n, :records
+    belongs_to :campaign, :required => false
 
-    after :create do |obj|
-      action_logger(obj, "create", obj.to_params)
-    end
     # instance methods
     def human_name
-      "追踪"
+      "开信记录"
     end
 end

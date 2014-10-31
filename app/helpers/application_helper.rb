@@ -22,9 +22,9 @@
   # check remote client whether is mobile
   # define different layout
   def mobile?
-    agent_str = request.env["HTTP_USER_AGENT"].to_s.downcase rescue "false"
-    return false if agent_str =~ /ipad/
-    agent_str =~ Regexp.new(MOBILE_USER_AGENTS)
+    user_agent = request.user_agent.to_s.downcase rescue "false"
+    return false if user_agent =~ /ipad/
+    user_agent =~ Regexp.new(MOBILE_USER_AGENTS)
   end
 
   # generate keywords from obj

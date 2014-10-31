@@ -3,13 +3,13 @@ module Utils
   module DataMapper
     module Model
       def self.included(base)
-        base.send(:property, :delete_status, String, :default => "normal")
-        base.send(:property, :ip,         String)
-        base.send(:property, :browser,    ::DataMapper::Property::Text)
-        base.send(:property, :created_at, DateTime)
-        base.send(:property, :created_on, Date)
-        base.send(:property, :updated_at, DateTime)
-        base.send(:property, :updated_on, Date)
+        base.send(:property, :delete_status, ::String, :default => "normal")
+        base.send(:property, :ip,            ::String)
+        base.send(:property, :browser,       ::DataMapper::Property::Text)
+        base.send(:property, :created_at,    ::DateTime)
+        base.send(:property, :created_on,    ::Date)
+        base.send(:property, :updated_at,    ::DateTime)
+        base.send(:property, :updated_on,    ::Date)
         base.send(:include, InstanceMethods)
       end
 

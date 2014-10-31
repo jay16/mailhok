@@ -1,0 +1,25 @@
+-#encoding: utf-8
+.row
+  .col-lg-6
+    %h1 campaign管理
+  .col-lg-6{style: "margin-top:25px;"}
+    %a.btn.btn-default.right{href: "/account/campaigns/new"} 新建
+
+.row{style: "margin-top: 5px; background: white;"}
+  %table.table.table-striped.table-condensed
+    %thead
+      %tr
+        %th 序号 
+        %th 标题 
+        %th 收件人 
+        %th 开信 
+        %th 链接
+    %tbody
+      - @campaigns.each_with_index do |campaign, index|
+        - id = "campaign_%d" % campaign.id
+        %tr{id: id}
+          %td= index + 1
+          %td= campaign.subject
+          %td= campaign.to
+          %td= campaign.tracks.count
+          %th= campaign.mid

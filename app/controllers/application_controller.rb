@@ -2,6 +2,14 @@
 #require 'sinatra/advanced_routes'
 require 'digest/md5'
 class ApplicationController < Sinatra::Base
+  before do
+    params = (params || {}).merge({
+      :ip      => remote_ip,
+      :browser => remote_browser
+    })
+    puts "%s - Params: %s" % [Time.now.to_s, params.to_s]
+  end
+
   register Sinatra::Reloader
   register Sinatra::Flash
   # register Sinatra::AdvancedRoutes
@@ -22,21 +30,17 @@ class ApplicationController < Sinatra::Base
 
   # global functions list
   def remote_ip
-    request.env["REMOTE_ADDR"] || "n-i-l"
+    request.ip 
   end
-
   def remote_path
-    request.env["REQUEST_PATH"] || "/"
+    request.path 
   end
-
   def remote_browser
-    request.env["HTTP_USER_AGENT"] || "n-i-l"
+    request.user_agent
   end
-
   def run_shell(cmd)
     IO.popen(cmd) { |stdout| stdout.reject(&:empty?) }.unshift($?.exitstatus.zero?)
   end 
-
   # global function
   def uuid(str)
     str += Time.now.to_f.to_s

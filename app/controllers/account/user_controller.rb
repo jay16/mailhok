@@ -9,9 +9,9 @@ class Account::UserController< Account::ApplicationController
   # page index
   # GET /account
   get "/" do
-    @tracks  = current_user.tracks.normals
-    @records = current_user.records.normals
-    @orders  = current_user.orders.normals
+    @campaigns = current_user.campaigns.normals
+    @tracks    = current_user.tracks.normals
+    @orders    = current_user.orders.normals
 
     haml :index, layout: :"../layouts/layout"
   end

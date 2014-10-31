@@ -20,8 +20,8 @@ class User
 
     has n, :orders
     has n, :action_logs
-    has n, :tracks
-    has n, :records, :through => :tracks
+    has n, :campaigns
+    has n, :tracks, :through => :campaigns
 
     def admin?
       @is_admin ||= Settings.admins.split(/;/).include?(self.email)
