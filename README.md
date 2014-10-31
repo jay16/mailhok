@@ -112,6 +112,46 @@ bundle exec thin start
 
     现在直接把Model名称换了(track_id自然也变了)，同样的关联逻辑，运行正常！
 
+  5. inject的使用
+
+    算不上坑,算是用法要点易忽视, 坑人的用法:
+
+    ````
+      hash.inject({}) do |sum, _hash|
+        next if _hash[0] == "updated_at" # 坑
+        sum.merge!({ _hash.first => _hash.last })
+      end
+    ````
+
+    inject每次循环的返回值赋值给sum，使用next相当于把sum置为nil，next后的循环中就会报错nil没有方法merge!
+
+    正确的用法:
+
+    ````
+      hash.inject({}) do |sum, _hash|
+        if _hash[0] == "updated_at" # 不知道有没有更优雅的方法
+          return sum
+        else
+          sum.merge!({ _hash.first => _hash.last })
+        end
+      end
+      # 优雅点的用法？
+      hash.grep(...).inject({}) do |sum, _hash|
+          sum.merge!({ _hash.first => _hash.last })
+      end
+      # 但如果平行对比的话, 好像就优雅不起来了
+      # one, two hash结构一致
+      one.inject({}) do |diff, array|
+        key, _one = array
+        _two = two.fetch(key)
+        if _one == _two
+          return diff
+        else
+          sum.merge!({ key => { "one" => _one, "two" => _two }})
+        end
+      end
+    ````
+
 # 更新日志
 
 1. 2014/10/26
