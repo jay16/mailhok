@@ -10,7 +10,7 @@ class UserController < ApplicationController
   # login /user/login
   post "/login" do
     user = User.first(email: params[:user][:email])
-    if user and user.password == params[:user][:password]
+    if user and user.password == md5_key(params[:user][:password])
       response.set_cookie "cookie_user_login_state", {:value=> user.email, :path => "/", :max_age => "2592000"}
 
       flash[:success] = "登陆成功"
@@ -35,9 +35,7 @@ class UserController < ApplicationController
   # 3. email uniq
   # post /user/register
   post "/register" do
-    if params[:user].has_key?("confirm_password")
-      params[:user].delete("confirm_password")
-    end
+    params[:user][:password] = md5_key(params[:user][:password])
     user = User.create(params[:user])
 
     flash[:success] = "hi %s, 注册成功，请登陆..." % user.email

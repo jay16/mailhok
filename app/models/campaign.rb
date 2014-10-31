@@ -7,11 +7,11 @@ class Campaign # 活动
     include Utils::ActionLogger
 
     property :id       , Serial 
-    property :subject  , String #, :required => true, :unique => true
-    property :to       , String # to
+    property :subject  , String , :required => true
+    property :to       , String , :required => true # to
     property :tos      , Text   # when to out limit
     property :desc     , Text
-    property :mid      , String# , :unique => true# for api query, 
+    property :mid      , String , :unique => true # for api query, 
     property :type     , String , :default => "web"
 
     belongs_to :user, :required => false

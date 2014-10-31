@@ -2,13 +2,13 @@
 #require 'sinatra/advanced_routes'
 require 'digest/md5'
 class ApplicationController < Sinatra::Base
-  before do
-    params = (params || {}).merge({
-      :ip      => remote_ip,
-      :browser => remote_browser
-    })
-    puts "%s - Params: %s" % [Time.now.to_s, params.to_s]
-  end
+  #before do
+  #  params = (params || {}).merge({
+  #    :ip      => remote_ip,
+  #    :browser => remote_browser
+  #  })
+  #  puts "%s - Params: %s" % [Time.now.to_s, params.to_s]
+  #end
 
   register Sinatra::Reloader
   register Sinatra::Flash
@@ -44,6 +44,9 @@ class ApplicationController < Sinatra::Base
   # global function
   def uuid(str)
     str += Time.now.to_f.to_s
+    md5_key(str)
+  end
+  def md5_key(str)
     Digest::MD5.hexdigest(str)
   end
   def sample_3_alpha
@@ -65,7 +68,7 @@ class ApplicationController < Sinatra::Base
 
   # filter
   def authenticate! 
-    if request.cookies["_login_state"].to_s.strip.empty?
+    if request.cookies["cookie_user_login_state"].to_s.strip.empty?
       # 记录登陆前的path，登陆成功后返回至此path
       response.set_cookie "cookie_before_login_path", {:value=> request.url, :path => "/", :max_age => "2592000"}
 

@@ -1,10 +1,6 @@
 -#encoding: utf-8
-.row
-  %h1
-    = current_user.name
-
-.row
-  使用PrePaidCode
+.row.page-header
+  %h3= current_user.password
 
 .row{style: "margin-top: 5px; background: white;"}
   %table.table.table-striped.table-condensed
@@ -15,11 +11,11 @@
         %th 备注
     %tbody
       %tr
-        %td Camapign
+        %td 活动
         %td= @campaigns.count
         %td
       %tr
-        %td 开信记录
+        %td 开信
         %td= @tracks.count
         %td
       %tr

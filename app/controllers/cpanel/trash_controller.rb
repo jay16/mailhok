@@ -7,10 +7,9 @@ class Cpanel::TrashController< Cpanel::ApplicationController
 
   # GET /account
   get "/" do
-    @tracks  = Track.not_normals
-    @records = Record.not_normals
-    @orders  = Order.not_normals
-    @packages = Package.not_normals
+    @campaigns = Campaign.not_normals
+    @orders    = Order.not_normals
+    @packages  = Package.not_normals
 
     haml :index, layout: :"../layouts/layout"
   end
@@ -18,7 +17,7 @@ class Cpanel::TrashController< Cpanel::ApplicationController
   # undo
   # POST /cpanel/trash/order/1/normal
   post "/:model/:id/:status" do
-    _model = %w[tracks records orders packages].include?(params[:model]) 
+    _model = %w[tracks campaigns orders packages].include?(params[:model]) 
     _statu = %w[normal].include?(params[:status])
     if _model and _statu
         obj = Object.const_get(params[:model].chop.capitalize)

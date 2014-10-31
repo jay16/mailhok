@@ -8,7 +8,7 @@
       .panel-heading
         %h4.panel-title
           %a.collapsed{"aria-controls" => "collapseOrder", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOrder"}
-            Orders 
+            订单
             %span.badge= @orders.count
       #collapseOrder.panel-collapse.collapse{:role => "tabpanel", :style => "height: 0px;"}
         .panel-body
@@ -16,18 +16,9 @@
     .panel.panel-default
       .panel-heading
         %h4.panel-title
-          %a.collapsed{"aria-controls" => "collapseTrack", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseTrack"}
-            Tracks
-            %span.badge= @tracks.count
-      #collapseTrack.panel-collapse.collapse{:role => "tabpanel"}
-        .panel-body
-          aa
-    .panel.panel-default
-      .panel-heading
-        %h4.panel-title
           %a.collapsed{"aria-controls" => "collapseRecord", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseRecord"}
-            Records 
-            %span.badge= @records.count
+            活动
+            %span.badge= @campaigns.count
       #collapseRecord.panel-collapse.collapse{:role => "tabpanel"}
         .panel-body
           dddd
@@ -35,7 +26,7 @@
       .panel-heading
         %h4.panel-title
           %a.collapsed{"aria-controls" => "collapsePackage", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsePackage"}
-            Packages 
+            套餐
             %span.badge= @packages.count
       #collapsePackage.panel-collapse.collapse{:role => "tabpanel"}
         .panel-body

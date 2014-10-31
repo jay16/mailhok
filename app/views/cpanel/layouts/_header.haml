@@ -15,22 +15,22 @@
         %li.active= link_to "概况", "/cpanel"
         %li= link_to "用户", "/cpanel/users"
         %li= link_to "套餐", "/cpanel/packages"
-        %li= link_to "追踪", "/cpanel/tracks"
-        %li= link_to "开信", "/cpanel/records"
+        %li= link_to "活动", "/cpanel/campaigns"
+        %li= link_to "开信", "/cpanel/tracks"
         %li= link_to "订单", "/cpanel/orders"
         %li= link_to "Log", "/cpanel/action_logs"
 
       %input#navbar_right_lis{type: "hidden", value: 3}/
       %ul.nav.navbar-nav.navbar-right
         %li
-          %a{href: "/account"}
-            %i.glyphicon.glyphicon-home
-        %li
           %a{href: "/cpanel/store"}
             %i.glyphicon.glyphicon-shopping-cart
         %li
           %a{href: "/cpanel/trash"}
             %i.glyphicon.glyphicon-trash
+        %li
+          %a{href: "/account"}
+            %i.glyphicon.glyphicon-home
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             设置

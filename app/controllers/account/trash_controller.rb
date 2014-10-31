@@ -1,17 +1,13 @@
 #encoding: utf-8 
 class Account::TrashController< Account::ApplicationController
   set :views, ENV["VIEW_PATH"] + "/account/trash"
-  before do
-    authenticate!
-  end
 
   # account
   # page index
   # GET /account
   get "/" do
-    @tracks  = current_user.tracks.softs
-    @records = current_user.records.softs
-    @orders  = current_user.orders.softs
+    @campaigns = current_user.campaigns.softs
+    @orders    = current_user.orders.softs
 
     haml :index, layout: :"../layouts/layout"
   end

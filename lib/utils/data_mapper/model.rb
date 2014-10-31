@@ -19,13 +19,15 @@ module Utils
 
       module InstanceMethods
         def _diff_(new, old)
-          old.inject({}) do |diff, array|
+          old.inject({}) do |_diff, array|
             key, _old = array
             _new = new.fetch(key)
-            next if ["updated_at"].include?(key) or _new == _old 
-
-            puts "%s - %s: %s => %s" % [timestamp, key, _old, _new]
-            diff.merge!({ key => { "new" => _new, "old" => _old } })
+            if ["updated_at"].include?(key) or _new == _old 
+              _diff
+            else
+              puts "%s - %s: %s => %s" % [timestamp, key, _old, _new]
+              _diff.merge!({ key => { "new" => _new, "old" => _old } })
+            end
           end
         end
         def timestamp
@@ -54,7 +56,7 @@ module Utils
           _update_with_logger_ { hard_destroy }
         end
         def update_with_logger(params)
-          _update_with_loger_ { update(params) }
+          _update_with_logger_ { update(params) }
         end
         def delete?
           %w[soft hard].include?(delete_status)

@@ -7,14 +7,14 @@ class Order
     include Utils::ActionLogger
 
     property :id,            Serial 
-    property :out_trade_no , String #, :required => true, :unique => true # uniq id relate to alipay
-    property :pre_paid_code, String #, :required => true, :unique => true 
+    property :out_trade_no , String , :unique => true # uniq id relate to alipay
+    property :pre_paid_code, String , :unique => true 
     property :exp_id,        Integer # who use it
     property :exp_status,    Boolean, :default => false # whether used
-    property :quantity, Integer#, :required => true # all product number
-    property :amount,   Float  #, :required => true # all products price total
-    property :detail,   Text#, :required => true # shop cart list 
-    property :status,   Boolean, :default => false # whether transaction over
+    property :quantity,      Integer, :required => true # all product number
+    property :amount,        Float  , :required => true # all products price total
+    property :detail,        Text   , :required => true # shop cart list 
+    property :status,        Boolean, :default => false # whether transaction over
 
     belongs_to :user, :required => false
     has n, :order_items

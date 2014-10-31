@@ -59,7 +59,7 @@ class Cpanel::PackagesController < Cpanel::ApplicationController
   # POST /cpanel/packages/:id/onsale
   post "/:id/onsale" do
     package = Package.first(id: params[:id])
-    package.update_with_logger(:onsale => params[:onsale])
+    package.update_with_logger({:onsale => !package.onsale})
 
     redirect "/cpanel/packages"
   end

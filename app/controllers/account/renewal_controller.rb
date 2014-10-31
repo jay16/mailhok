@@ -51,6 +51,7 @@ class Account::RenewalController < Account::ApplicationController
         order_item.update(status: true)
       end
       order.update(status: true)
+      current_user.update(paid_at: DateTime.now)
       obj = order
     when "order_item"
       order_item = OrderItem.first(pre_paid_code: ppc)
@@ -62,6 +63,7 @@ class Account::RenewalController < Account::ApplicationController
         if not order.status
           if order.order_items.map(&:status).uniq == [true]
             order.update(status: true)
+            current_user.update(paid_at: DateTime.now)
           end
         end
       end

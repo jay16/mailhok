@@ -12,11 +12,11 @@ class Cpanel::HomeController < Cpanel::ApplicationController
 
   # GET /cpanel
   get "/" do
-    @users    = User.all
-    @tracks   = Track.all
-    @records  = Record.all
-    @packages = Package.all
-    @orders   = Track.all
+    @users     = User.normals
+    @campaigns = Campaign.normals
+    @tracks    = Track.normals
+    @packages  = Package.normals
+    @orders    = Order.normals
 
     haml :index, layout: :"../layouts/layout"
   end

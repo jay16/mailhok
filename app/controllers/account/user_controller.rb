@@ -1,9 +1,6 @@
 #encoding: utf-8 
 class Account::UserController< Account::ApplicationController
   set :views, ENV["VIEW_PATH"] + "/account/user"
-  before do
-    authenticate!
-  end
 
   # account
   # page index

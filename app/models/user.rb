@@ -9,14 +9,14 @@ class User
     property :id        , Serial 
     property :email     , String  , :required => true, :unique => true
     property :name      , String
-    property :password  , String
+    property :password  , String  , :required => true
     property :gender    , Boolean 
     property :country   , String  
     property :province  , String  
     property :city      , String  
-    property :expired_at, DateTime  , :default => DateTime.now
+    property :expired_at, DateTime, :default => DateTime.now
     property :paid_at   , String  
-    property :package_id, String  
+    property :op        , String  # order#1 or package#1
 
     has n, :orders
     has n, :action_logs

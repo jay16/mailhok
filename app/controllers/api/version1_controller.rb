@@ -12,11 +12,11 @@ class API::Version1 < API::ApplicationController
     expired_at = (@current_user.expired_at || DateTime.now).strftime("%Y/%m/%d %H:%M:%S")
     json = {
       :code => 200,
+      :uid  => @current_user.id,
       :now  => DateTime.now.strftime("%Y/%m/%d %H:%M:%S"),
       :expired_at => expired_at
     }
-
-    respond json, 200
+    respond json
   end
 
   get "/user/validate.json" do
@@ -33,45 +33,55 @@ class API::Version1 < API::ApplicationController
       :expired_at  => expired_at
     }
 
-    respond json, 200
+    respond json
   end
 
-  # post /api/v1/track/url
-  post "/track/url.json" do
-    subject = params[:subject]
-    uid     = params[:uid]
-    email   = params[:mid]
-    desc    = params[:to]
-    _uid = "%s%s%s%s%d%d" % [subject, uid, email, desc, Time.now.to_i, rand()]
-    track = Track.create({
-      :subject => subject,
-      :user_id => uuid(_uid),
-      :email   => email,
-      :desc    => desc,
-      :uid     => uid,
-      :type    => "api1"
-    })
-    
-    json = {
-      :code => 200,
-      :url  => "%s/%s" % [Settings.api.base_url, track.uid]
-    }
-    respond json, 200
+  # post /api/v1/campaigns.json
+  get "/campaigns.json" do
+    return unless @current_user 
+    json = {}
+    if params[:mid].nil?
+      json[:code] = 500
+      json[:errors] = { "mid" => ["mid is necessary"] }
+    else
+      if campaign = @current_user.campaigns.first(mid: params[:mid])
+        json[:code] = 200
+        json[:url]  = %Q(<img src="%s/%s">) % [Settings.api.v1.url, campaign.mid]
+      else
+        campaign = @current_user.campaigns.new({
+          :subject => params[:subject],
+          :to      => params[:to],
+          :tos     => params[:tos],
+          :mid     => params[:mid],
+          :type    => "api1"
+        })
+        if campaign.save
+          json[:code] = 200
+          json[:url]  = %Q(<img src="%s/%s">) % [Settings.api.v1.url, campaign.mid]
+        else
+          errors = []
+          campaign.errors.each_pair do |key, value|
+            errors.push({ key => value })
+          end
+          json[:code]   = 500
+          json[:errors] = errors
+        end
+      end
+    end
+    respond json
   end
 
   # pre-paid-code
   # get /api/v1/:pre_paid_type/generate
   get "/:pre_paid_type/pre_paid_code.json" do
-    if @current_user 
-      pre_paid_type = "%s%d%s%d%d" % [@current_user.email, @current_user.id, params[:pre_paid_type], Time.now.to_i, rand()]
-      pre_paid_code = uuid(pre_paid_type.to_s)
-      json = { 
-        :pre_paid_type => params[:pre_paid_type],
-        :pre_paid_code => pre_paid_code
-      }
-    else
-      json = {}
-    end
-    respond json, (json.empty? ? 401 : 200)
+    return unless @current_user 
+    pre_paid_type = "%s%d%s%d%d" % [@current_user.email, @current_user.id, params[:pre_paid_type], Time.now.to_i, rand()]
+    pre_paid_code = uuid(pre_paid_type.to_s)
+    json = { 
+      :code => 200,
+      :pre_paid_type => params[:pre_paid_type],
+      :pre_paid_code => pre_paid_code
+    }
+    respond json
   end
 end

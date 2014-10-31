@@ -19,7 +19,7 @@ map("/account/trash")   { run Account::TrashController }
 map("/cpanel")          { run Cpanel::HomeController }
 map("/cpanel/users")    { run Cpanel::UsersController }
 map("/cpanel/packages") { run Cpanel::PackagesController }
-map("/cpanel/tracks")   { run Cpanel::TracksController }
-map("/cpanel/records")  { run Cpanel::RecordsController }
+map("/cpanel/campaigns")   { run Cpanel::CampaignsController }
+map("/cpanel/tracks")  { run Cpanel::TracksController }
 map("/cpanel/orders")   { run Cpanel::OrdersController }
 map("/cpanel/trash")    { run Cpanel::TrashController }
