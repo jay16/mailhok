@@ -30,6 +30,11 @@ $(document).ready ->
             message: "登陆邮箱为必填项."
           emailAddress:
             message: "邮箱地址无效."
+          remote:
+            type: "post"
+            delay: true
+            url: "/user/check_email_exist"
+            message: "该邮箱已被注册"
       "user[password]":
         validators:
           notEmpty:

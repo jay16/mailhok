@@ -26,6 +26,8 @@ class UserController < ApplicationController
   # register page
   # get /user/register
   get "/register" do
+    @user ||= User.new
+
     haml :register, layout: :"../layouts/layout"
   end
 
@@ -36,10 +38,19 @@ class UserController < ApplicationController
   # post /user/register
   post "/register" do
     params[:user][:password] = md5_key(params[:user][:password])
-    user = User.create(params[:user])
+    user = User.new(params[:user])
 
-    flash[:success] = "hi %s, 注册成功，请登陆..." % user.email
-    redirect "/user/login"
+    if user.save
+      flash[:success] = "hi %s, 注册成功，请登陆..." % user.email
+      redirect "/user/login"
+    else
+      msg = ["注册失败:"]
+      format_dv_errors(user).each_with_index do |hash, index|
+        msg.push("%d. %s" % [index+1, hash.to_a.join(": ")])
+      end
+      flash[:danger] = msg.join("<br>")
+      redirect "/user/register"
+    end
   end
 
   # logout
@@ -47,5 +58,12 @@ class UserController < ApplicationController
   get "/logout" do
     response.set_cookie "cookie_user_login_state", {:value=> "", :path => "/", :max_age => "2592000"}
     redirect "/"
+  end
+
+  post "/check_email_exist" do
+    user = User.first(email: params[:user][:email])
+    res  = { valid: user.nil? }.to_json
+    content_type "application/json"
+    body res
   end
 end

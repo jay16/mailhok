@@ -8,15 +8,15 @@
   .form-group
     %label.col-lg-2.control-label 用户名称&nbsp;&nbsp;&nbsp;
     .col-lg-8
-      %input.form-control{name: "user[name]", type: "text"}/
+      %input.form-control{name: "user[name]", type: "text", value: @user.name}/
   .form-group
     %label.col-lg-2.control-label 登陆邮箱*
     .col-lg-8
-      %input.form-control{name: "user[email]", type: "text"}/
+      %input.form-control{name: "user[email]", type: "text", value: @user.email}/
   .form-group
     %label.col-lg-2.control-label 登陆密码*
     .col-lg-8
-      %input.form-control{name: "user[password]", type: "password"}/
+      %input.form-control{name: "user[password]", type: "password", value: @user.password}/
   .form-group
     %label.col-lg-2.control-label 确认密码*
     .col-lg-8

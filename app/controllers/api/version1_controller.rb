@@ -60,10 +60,7 @@ class API::Version1 < API::ApplicationController
           json[:code] = 200
           json[:url]  = %Q(<img src="%s/%s">) % [Settings.api.v1.url, campaign.mid]
         else
-          errors = []
-          campaign.errors.each_pair do |key, value|
-            errors.push({ key => value })
-          end
+          errors = format_dv_errors(campaign)
           json[:code]   = 500
           json[:errors] = errors
         end

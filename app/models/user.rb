@@ -29,6 +29,10 @@ class User
 
     after :create do |obj|
       action_logger(obj, "create", obj.to_params)
+      # name default from email
+      if name.nil? 
+        update(name: email.split(/@/).first)
+      end
     end
     # instance methods
     def human_name

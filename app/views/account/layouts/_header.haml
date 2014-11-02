@@ -51,10 +51,11 @@
               %a{href: "/account/trash"}
                 %i.glyphicon.glyphicon-trash
                 回收站
-            %li
-              %a{:href => "/cpanel"}
-                %i.glyphicon.glyphicon-wrench
-                后台管理
+            - if current_user and current_user.admin?
+              %li
+                %a{:href => "/cpanel"}
+                  %i.glyphicon.glyphicon-wrench
+                  后台管理
             %li.divider
             %li
               %a{:href => "/user/logout"}

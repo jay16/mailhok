@@ -2,13 +2,13 @@
 #require 'sinatra/advanced_routes'
 require 'digest/md5'
 class ApplicationController < Sinatra::Base
-  #before do
-  #  params = (params || {}).merge({
-  #    :ip      => remote_ip,
-  #    :browser => remote_browser
-  #  })
-  #  puts "%s - Params: %s" % [Time.now.to_s, params.to_s]
-  #end
+  before do
+    params = (params || {}).merge({
+      :ip      => remote_ip,
+      :browser => remote_browser
+    })
+    puts "%s - Params: %s" % [Time.now.to_s, params.to_s]
+  end
 
   register Sinatra::Reloader
   register Sinatra::Flash
@@ -75,6 +75,15 @@ class ApplicationController < Sinatra::Base
       flash[:notice] = "继续操作前请登录."
       redirect "/user/login", 302
     end
+  end
+
+  # format gem#dm-validations errors info
+  def format_dv_errors(model)
+    errors = []
+    model.errors.each_pair do |key, value|
+      errors.push({ key => value })
+    end
+    return errors
   end
 
   # 404 page

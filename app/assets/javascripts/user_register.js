@@ -33,6 +33,12 @@
             },
             emailAddress: {
               message: "邮箱地址无效."
+            },
+            remote: {
+              type: "post",
+              delay: true,
+              url: "/user/check_email_exist",
+              message: "该邮箱已被注册"
             }
           }
         },
