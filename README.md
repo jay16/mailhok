@@ -7,11 +7,6 @@ bundle install
 bundle exec thin start
 ````
 
-## 路由配置 
-
-````
-````
-
 # 功能说明 
 
 ## controllers

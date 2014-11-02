@@ -14,7 +14,8 @@ class API::Version1 < API::ApplicationController
       :code => 200,
       :uid  => @current_user.id,
       :now  => DateTime.now.strftime("%Y/%m/%d %H:%M:%S"),
-      :expired_at => expired_at
+      :expired_at => expired_at,
+      :notifications => ""
     }
     respond json
   end
