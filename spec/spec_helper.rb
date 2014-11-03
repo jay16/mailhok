@@ -53,3 +53,14 @@ end
 def remote_browser
   last_request.env["HTTP_USER_AGENT"] || "n-i-l"
 end
+
+def uuid(str)
+  str += Time.now.to_f.to_s
+  md5_key(str)
+end
+def md5_key(str)
+  Digest::MD5.hexdigest(str)
+end
+def sample_3_alpha
+  (('a'..'z').to_a + ('A'..'Z').to_a).sample(3).join
+end

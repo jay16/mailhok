@@ -3,38 +3,50 @@ require "date"
 require File.expand_path '../../../spec_helper.rb', __FILE__
 
 describe "API::V1" do
-  describe "User" do
-    before do
-      @user = User.first(email: "admin@intfocus.com")
-      @params = @user.to_params.select { |key, vaule| ["email", "password"].include?(key) }
-    end
-
-    it "should return user info when login successfully" do
-      get "/api/v1/user/login.json", @params
-      puts last_response.body
-
-      expect(last_response.status).to eq(200)
-
-      json = JSON.parse(last_response.body)
-      code = json["code"]
-      now  = DateTime.parse(json["now"]).strftime("%Y/%m/%d %H:%M:%S")
-      expired_at = json["expired_at"]
-
-      expect(code).to eq(200)
-      expect(now).to  eq(DateTime.now.strftime("%Y/%m/%d %H:%M:%S"))
-      expect(expired_at).to eq((@user.expired_at||DateTime.now).strftime("%Y/%m/%d %H:%M:%S"))
-    end
-
-    it "should return user info when validate successfully" do
-    end
+  before do
+    @user = User.first_or_create({email: "admin@intfocus.com", password: md5_key("D")})
+    @params = {email: @user.email, password: @user.password}
   end
 
-  describe "Track Email Status" do
-    it "should generate a track url when post submit" do
-      params = {
-      }
-      post "/api/v1/track/url.json", params
-    end
+  it "should return user info when login successfully" do
+    get "/api/v1/user/login.json", @params
+
+    expect(last_response.status).to eq(200)
+
+    hash = JSON.parse(last_response.body)
+    expect(hash.keys.sort).to eq(%w[code uid now expired_at notifications].sort)
+
+    uid  = hash["uid"]
+    code = hash["code"]
+    now  = DateTime.parse(hash["now"]).strftime("%Y/%m/%d %H:%M:%S")
+    expired_at    = hash["expired_at"]
+    notifications = hash["notifications"]
+
+    expect(uid).to eq(@user.id)
+    expect(code).to eq(200)
+    expect(now).to  eq(DateTime.now.strftime("%Y/%m/%d %H:%M:%S"))
+    expect(expired_at).to eq((@user.expired_at||DateTime.now).strftime("%Y/%m/%d %H:%M:%S"))
+  end
+
+  it "should return user info when validate successfully" do
+  end
+
+  it "should generate a track url when post submit" do
+    params = @params.merge({
+        :subject => "hello",
+        :to      => "to",
+        :tos     => "tos",
+        :mid     => md5_key("D")
+    })
+    post "/api/v1/campaigns.json", params
+
+    expect(last_response.status).to eq(200)
+    hash = JSON.parse(last_response.body)
+    expect(hash.keys.sort).to eq(%w[code url])
+
+    code = hash["code"]
+    url  = hash["url"]
+    puts url
   end
   describe "Pre Paid Code" do
     before do
@@ -44,18 +56,18 @@ describe "API::V1" do
       }
     end
 
-    it "should generate pre-paid-code with administrator" do
-      pre_paid_type = "month"
-      get "/api/v1/%s/pre_paid_code.json" % pre_paid_type, @params
+    #it "should generate pre-paid-code with administrator" do
+    #  pre_paid_type = "month"
+    #  get "/api/v1/%s/pre_paid_code.json" % pre_paid_type, @params
 
-      expect(last_response).to be_ok
+    #  expect(last_response).to be_ok
 
-      json = JSON.parse(last_response.body)
-      pre_paid_code = json["pre_paid_code"] 
-      pre_paid_type = json["pre_paid_type"]
+    #  json = JSON.parse(last_response.body)
+    #  pre_paid_code = json["pre_paid_code"] 
+    #  pre_paid_type = json["pre_paid_type"]
 
-      expect(pre_paid_code.size).to eq(32)
-      expect(pre_paid_type).to eq("month")
-    end
+    #  expect(pre_paid_code.size).to eq(32)
+    #  expect(pre_paid_type).to eq("month")
+    #end
   end
 end

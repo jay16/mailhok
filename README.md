@@ -1,4 +1,4 @@
-# [MailHok](http://mailhok.cn/)
+# [MailHok](http://mailhok.solife.us)
 
 ## 启动服务
 
@@ -7,15 +7,15 @@ bundle install
 bundle exec thin start
 ````
 
-# 功能说明 
+## 功能说明 
 
-## controllers
+### controllers
 
   1. account 登陆用户管理中心
   2. cpanel 管理员管理中心
   3. 其他为公共链接
 
-## models
+### models
 
   1. 每个model通用属性、实例方法、类方法放在/lib/utils/data_mapper/model.rb
   2. action_logger在/lib/utils/action_logger.rb定义
@@ -23,6 +23,10 @@ bundle exec thin start
 
   ps: action_logger与model间的关联(需关联到user)/实例方法(需要logger的model都要有human_name方法)等，修改model时记得查看是否被action_logger绊到了。
 
+### TODO
+
+	1. 支付宝支付
+	
 ## 坑汇总
 
 ### 设计逻辑
@@ -147,7 +151,7 @@ bundle exec thin start
       end
     ````
 
-# 更新日志
+## 更新日志
 
 1. 2014/10/26
 
@@ -160,3 +164,7 @@ bundle exec thin start
 3. 2014/10/31
 
   1. 解决 - 坑汇总#技术相关#4
+
+4. 2014/11/03
+
+  1. rspec 测试home/api#version1

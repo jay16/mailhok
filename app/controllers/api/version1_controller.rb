@@ -38,7 +38,7 @@ class API::Version1 < API::ApplicationController
   end
 
   # post /api/v1/campaigns.json
-  get "/campaigns.json" do
+  post "/campaigns.json" do
     return unless @current_user 
     json = {}
     if params[:mid].nil?

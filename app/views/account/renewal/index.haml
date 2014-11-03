@@ -1,8 +1,9 @@
 = stylesheet_link_tag "/stylesheets/bootstrapValidator.min.css"
 = javascript_include_tag "/javascripts/bootstrapValidator.js"
 
-.page-header
-  %h2 续期MailHok
+.row.page-header
+  .col-lg-6
+    %h1 续期
 
 %form#ppcForm.form-horizontal{action: "/account/renewal/ppc", method: "post"}
   .form-group
