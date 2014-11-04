@@ -2,6 +2,7 @@
 module Account; end
 class Account::ApplicationController < ApplicationController
   before do
+    #print_format_logger(params)
     authenticate!
   end
 

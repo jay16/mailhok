@@ -1,6 +1,9 @@
 #encoding: utf-8
 module API; end
 class API::ApplicationController < ApplicationController
+  before do
+    #print_format_logger(params)
+  end
   def respond_with_json _body
     raise "code is necessary!" unless _body.has_key?(:code)
     content_type "application/json"

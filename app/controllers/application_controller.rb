@@ -3,11 +3,7 @@
 require 'digest/md5'
 class ApplicationController < Sinatra::Base
   before do
-    params = (params || {}).merge({
-      :ip      => remote_ip,
-      :browser => remote_browser
-    })
-    puts "%s - Params: %s" % [Time.now.to_s, params.to_s]
+    print_format_logger(params)
   end
 
   register Sinatra::Reloader
@@ -85,6 +81,31 @@ class ApplicationController < Sinatra::Base
     end
     return errors
   end
+
+  def print_format_logger(params)
+    hash = params || {}
+    info = {:ip => remote_ip, :browser => remote_browser}
+    if not hash.empty? 
+      model = grep_params_model(hash)
+      hash[model] = hash.fetch(model).merge(info) if model
+    end
+    params = hash.merge(info)
+    puts %Q(\n\n%s "%s" for %s at %s) % [request.request_method, request.path, request.ip, Time.now.to_s]
+    puts %Q(Parameters: %s\n\n) % params.to_s
+  end
+
+  def grep_params_model(hash)
+    models  = %w[user package order track campaign]
+    model = hash.inject([]) do |sum, _hash|
+      key, value = _hash
+      sum.push(key) if key and value.is_a?(Hash)
+      sum
+    end.uniq.first
+    if model and models.include?(model)
+      return model
+    end
+  end
+
 
   # 404 page
   not_found do
