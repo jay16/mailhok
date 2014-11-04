@@ -9,29 +9,38 @@ class TransactionsController < ApplicationController
     out_trade_no = generate_out_trade_no
 
     options = {
-      :partner           => Settings.alipay.pid,
-      :key               => Settings.alipay.secret,
-      :seller_email      => Settings.alipay.seller_email,
-      :description       => params[:order],
-      :out_trade_no      => out_trade_no,
-      :subject           => "我喝茶订单 - ￥" + params[:amount].to_s,
-      :price             => params[:amount],
-      :quantity          => 1,
-      :discount          => '0.00',
-      :return_url        => Settings.alipay.return_url,
-      :notify_url        => Settings.alipay.notify_url
+      :partner       => Settings.alipay.pid,
+      :key           => Settings.alipay.secret,
+      :seller_email  => Settings.alipay.seller_email,
+      :description   => params[:order][:detail],
+      :out_trade_no  => out_trade_no,
+      :subject       => "MailHok订单 - ￥" + params[:order][:amount].to_s,
+      :price         => params[:order][:amount],
+      :quantity      => 1,
+      :discount      => '0.00',
+      :return_url    => Settings.alipay.return_url,
+      :notify_url    => Settings.alipay.notify_url
     }
 
-    #创建订单
+    order_params = params[:order].merge({
+      out_trade_no:  uuid(params.to_s),
+      pre_paid_code: Time.now.to_f.to_s
+    })
+    order = current_user.orders.new(order_params)
+    if order.save
+      pre_paid_code = "%s%du%do%s" % ["ppc", order.user_id, order.id, sample_3_alpha]
+      order.update(:pre_paid_code => pre_paid_code)
+      build_relation_with_items(order)
+    else
+      puts "Failed to save order: %s" % order.errors.inspect
+    end
     Order.create({ 
       :out_trade_no => out_trade_no,
       :quantity => params[:quantity],
       :amount   => params[:amount],
-      :detail   => params[:order],
+      :detail   => params[:details],
       :ip       => remote_ip,
-      :browser  => remote_browser,
-      :created_at => DateTime.now,
-      :updated_at => DateTime.now
+      :browser  => remote_browser
     })
 
     redirect AlipayDualfun.trade_create_by_buyer_url(options)
@@ -60,16 +69,16 @@ class TransactionsController < ApplicationController
     @order = Order.first(:out_trade_no => params[:out_trade_no])
 
     @columns = { 
-      :out_trade_no => "订单号",
-      :subject      => "订单标题",
-      :total_fee    => "订单金额",
-      :seller_actions => "卖家待做",
-      :receive_name => "买家名称",
-      :buyer_email => "买家邮箱",
-      :receive_mobile => "买家手机号",
+      :out_trade_no    => "订单号",
+      :subject         => "订单标题",
+      :total_fee       => "订单金额",
+      :seller_actions  => "卖家待做",
+      :receive_name    => "买家名称",
+      :buyer_email     => "买家邮箱",
+      :receive_mobile  => "买家手机号",
       :receive_address => "买家地址",
-      :gmt_payment => "付款时间",
-      :receive_zip  => "买家邮编"
+      :gmt_payment     => "付款时间",
+      :receive_zip     => "买家邮编"
     }
 
     haml :show, layout: :"../layouts/layout"
@@ -95,7 +104,6 @@ class TransactionsController < ApplicationController
 
     [status, transaction]
   end
-
 
   def generate_out_trade_no
     ip_hex = remote_ip.split(".").map{ |is| ("%02X" % is.to_i).to_s }.join.hex

@@ -64,20 +64,4 @@ class Cpanel::OrdersController < Cpanel::ApplicationController
     order.soft_destroy_with_logger
   end
 
-  private
-    def build_relation_with_items(order)
-      JSON.parse("[%s]" % order.detail).each_with_index do |item, index|
-        quantity = item.delete("quantity").to_i
-        1.upto(quantity) do |i|
-          item.merge!({ pre_paid_code: Time.now.to_f.to_s })
-          order_item = order.order_items.new(item)
-          if order_item.save
-            pre_paid_code = "%s%du%do%di%s" % ["ppc", order.user_id, order.id, order_item.id, sample_3_alpha]
-            order_item.update(:pre_paid_code => pre_paid_code)
-          else
-            puts "Failed to save order_item: %s" % order_item.errors.inspect
-          end
-        end
-      end
-    end
 end
